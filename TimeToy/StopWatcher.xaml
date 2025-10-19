@@ -1,0 +1,153 @@
+﻿<Window x:Class="TimeToy.StopWatcher"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeToy"
+        mc:Ignorable="d"
+        Title="StopWatcher" Height="450" Width="800">
+    <Window.Resources>
+        <local:StopWatcherConverter x:Key="StopWatcherConverter"/>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="PART_Border"
+                            CornerRadius="12" 
+                            BorderBrush="Gray" 
+                            BorderThickness="2"
+                            Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Border Background="White" 
+                                    Opacity="0.2" 
+                                    CornerRadius="12" 
+                                    Margin="0,0,0,4"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="PART_Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FFB8860B" Offset="0"/>
+                                            <GradientStop Color="#FFF5DEB3" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="PART_Border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FFD3D3D3" Offset="0"/>
+                                            <GradientStop Color="#FFB0B0B0" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="#FF888888"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FFF5DEB3" Offset="0"/>
+                        <GradientStop Color="#FFB8860B" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color= "Goldenrod" Offset="0"/>
+                <GradientStop Color="#7FF3AA21" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="StopWatcher10Seconds" Content="10 Second Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher10Seconds_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher5Seconds" Content="5 Second Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher5Seconds_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher10Sound" Content="10 Sound Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher10Sound_Click" HorizontalAlignment="Left"/>
+        </StackPanel>
+        
+        <Grid Grid.Column="1" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBox x:Name="CountdownTextBox"
+             Grid.Column="1"
+             Grid.Row="0"
+             Margin="16,16,16,0"
+             VerticalScrollBarVisibility="Auto"
+             HorizontalScrollBarVisibility="Auto"
+             IsReadOnly="True"
+             TextWrapping="Wrap"
+             FontFamily="Cascadia Code SemiBold"
+             
+             AcceptsReturn="True"
+             Background="#FFE4FFC1"
+             MinWidth="100"
+             MinHeight="60" VerticalAlignment="Stretch" Text="Go! started 18:18:18.ff">
+            <TextBox.FontSize>
+                <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
+            </TextBox.FontSize>
+
+        </TextBox>
+        <TextBox x:Name="CounterTextBox"
+             Grid.Column="1"
+                 Grid.Row="1"
+             Margin="16,16,16,8"
+             VerticalScrollBarVisibility="Auto"
+             HorizontalScrollBarVisibility="Auto"
+             IsReadOnly="True"
+             TextWrapping="Wrap"
+             FontFamily="Cascadia Code SemiBold"
+             
+             AcceptsReturn="True"
+             Background="#FFE4FFC1"
+             MinWidth="100"
+             MinHeight="60" VerticalAlignment="Stretch" Text="hh:mm:ss.fff" > 
+            <TextBox.FontSize>
+                <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
+            </TextBox.FontSize>
+
+        </TextBox>
+
+        <StackPanel Grid.Column="1"
+                    Grid.Row="2"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Margin="16,0,0,160"
+                VerticalAlignment="Bottom">
+            <Button Content="Stop" Width="80" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="StopButton_Click"/>
+            <Button x:Name="LapButton" Content="Lap" Width="80" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="LapButton_Click"/>
+            <Button Content="Clear" Width="80" Height="36" VerticalAlignment="Center" Click="ClearButton_Click"/>
+        </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

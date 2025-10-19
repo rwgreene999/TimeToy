@@ -1,0 +1,15 @@
+In Stopwatcher
+	* implement sound countdown feature
+	* change sound countdown to 5 seconds 
+	* explore the usage of user picked computer voices 
+	* standard the color around gold on main menu 
+	* Implement clear button
+	* explore the use of multiple Stopwatches (long term goal) 
+In Timer
+	* Implement everything 
+In the Alarm 
+	* implement everything
+In general
+	* see of there is a way for all nuttons to be configured at once 
+	perhaps as a user control 
+	* see if there is a way to make the app remember last used settings

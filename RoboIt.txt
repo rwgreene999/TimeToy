@@ -1,0 +1,52 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Sunday, October 19, 2025 3:53:55 PM
+   Source = D:\projects\projects\TimeToy\
+     Dest = D:\Projects\GitHub\TimeToy\
+
+    Files : *
+	    
+  Options : /TEE /S /DCOPY:DA /COPY:DAT /NP /R:2 /W:2 
+
+------------------------------------------------------------------------------
+
+	                   1	D:\projects\projects\TimeToy\
+	*EXTRA Dir        -1	D:\Projects\GitHub\TimeToy\.git\
+	  *EXTRA File 		    7868	.gitgnore
+	  *EXTRA File 		       2	RoboIt.txt
+	                   0	D:\projects\projects\TimeToy\.vs\
+	                   0	D:\projects\projects\TimeToy\.vs\TimeToy\
+	                   0	D:\projects\projects\TimeToy\.vs\TimeToy\copilot-chat\
+	                   0	D:\projects\projects\TimeToy\.vs\TimeToy\copilot-chat\b5c39e34\
+	                   3	D:\projects\projects\TimeToy\.vs\TimeToy\copilot-chat\b5c39e34\sessions\
+	                   0	D:\projects\projects\TimeToy\.vs\TimeToy\CopilotIndices\
+	                   2	D:\projects\projects\TimeToy\.vs\TimeToy\CopilotIndices\17.13.444.19527\
+	  *EXTRA File 		   32768	CodeChunks.db-shm
+	  *EXTRA File 		   2.4 m	CodeChunks.db-wal
+	  *EXTRA File 		   32768	SemanticSymbols.db-shm
+	  *EXTRA File 		   1.4 m	SemanticSymbols.db-wal
+	                   5	D:\projects\projects\TimeToy\.vs\TimeToy\FileContentIndex\
+	                   3	D:\projects\projects\TimeToy\.vs\TimeToy\v17\
+	                   0	D:\projects\projects\TimeToy\.vs\TimeToy\v17\TestStore\
+	                   2	D:\projects\projects\TimeToy\.vs\TimeToy\v17\TestStore\0\
+	                  13	D:\projects\projects\TimeToy\TimeToy\
+	                   0	D:\projects\projects\TimeToy\TimeToy\bin\
+	                   3	D:\projects\projects\TimeToy\TimeToy\bin\Debug\
+	  New Dir          0	D:\projects\projects\TimeToy\TimeToy\bin\Release\
+	                   0	D:\projects\projects\TimeToy\TimeToy\obj\
+	                  30	D:\projects\projects\TimeToy\TimeToy\obj\Debug\
+	                   1	D:\projects\projects\TimeToy\TimeToy\obj\Debug\TempPE\
+	                   5	D:\projects\projects\TimeToy\TimeToy\Properties\
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :        20         1        19         0         0         1
+   Files :        68         0        68         0         0         6
+   Bytes :    1.29 m         0    1.29 m         0         0    3.94 m
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+   Ended : Sunday, October 19, 2025 3:53:55 PM
+
