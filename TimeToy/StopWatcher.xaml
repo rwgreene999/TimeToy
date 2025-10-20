@@ -26,7 +26,7 @@
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="StopWatcher10Seconds" Content="10 Second Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher10Seconds_Click" HorizontalAlignment="Left"/>
             <Button x:Name="StopWatcher5Seconds" Content="5 Second Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher5Seconds_Click" HorizontalAlignment="Left"/>
-            <Button x:Name="StopWatcher10Sound" Content="10 Sound Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher10Sound_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher10Sound" Content="5 Sound Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher5Sound_Click" HorizontalAlignment="Left"/>
         </StackPanel>
 
         <Grid Grid.Column="1" Margin="8">
@@ -88,7 +88,7 @@
                 VerticalAlignment="Bottom">
                 <Button Content="Stop" Width="70" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="StopButton_Click"/>
                 <Button x:Name="LapButton" Content="Lap" Width="70" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="LapButton_Click"/>
-                <Button Content="Clear" Width="70" Height="36" VerticalAlignment="Center" Click="ClearButton_Click"/>
+                <Button x:Name="ClearButton" Content="Clear" Width="70" Height="36" VerticalAlignment="Center" Click="ClearButton_Click"/>
             </StackPanel>
         </Grid>
 

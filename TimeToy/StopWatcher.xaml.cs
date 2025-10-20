@@ -73,12 +73,14 @@ namespace TimeToy
             StopWatcher5Seconds.IsEnabled = false;
             StopWatcher10Seconds.IsEnabled = false;
             StopWatcher10Sound.IsEnabled = false;
+            ClearButton.IsEnabled = false;
         }
         private void EnableAllStartButtons()
         {
             StopWatcher5Seconds.IsEnabled = true;
             StopWatcher10Seconds.IsEnabled = true;
             StopWatcher10Sound.IsEnabled = true;
+            ClearButton.IsEnabled = true;   
         }
 
         private async Task LaunchTheStopwatch(bool speak = false)
@@ -131,7 +133,7 @@ namespace TimeToy
 
         }
 
-        private async void StopWatcher10Sound_Click(object sender, RoutedEventArgs e)
+        private async void StopWatcher5Sound_Click(object sender, RoutedEventArgs e)
         {
             DisableAllStartButtons();
             PrepareForStopwatchAction();
