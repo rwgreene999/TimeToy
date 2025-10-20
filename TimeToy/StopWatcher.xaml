@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeToy"
         mc:Ignorable="d"
-        Title="StopWatcher" Height="450" Width="800">
+        Title="StopWatcher" Height="250" Width="450">
     <Window.Resources>
         <local:StopWatcherConverter x:Key="StopWatcherConverter"/>
-        
+
     </Window.Resources>
 
     <Grid>
@@ -19,16 +19,16 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="StopWatcher10Seconds" Content="10 Second Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher10Seconds_Click" HorizontalAlignment="Left"/>
-            <Button x:Name="StopWatcher5Seconds" Content="5 Second Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher5Seconds_Click" HorizontalAlignment="Left"/>
-            <Button x:Name="StopWatcher10Sound" Content="10 Sound Countdown" Width="200" Height="40" Margin="0,0,0,16" Click="StopWatcher10Sound_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher10Seconds" Content="10 Second Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher10Seconds_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher5Seconds" Content="5 Second Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher5Seconds_Click" HorizontalAlignment="Left"/>
+            <Button x:Name="StopWatcher10Sound" Content="10 Sound Countdown" Width="130" Height="40" Margin="0,0,0,16" Click="StopWatcher10Sound_Click" HorizontalAlignment="Left"/>
         </StackPanel>
-        
+
         <Grid Grid.Column="1" Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -38,9 +38,8 @@
 
 
             <TextBox x:Name="CountdownTextBox"
-             Grid.Column="1"
              Grid.Row="0"
-             Margin="16,16,16,0"
+             Margin="16,16,16,10"
              VerticalScrollBarVisibility="Auto"
              HorizontalScrollBarVisibility="Auto"
              IsReadOnly="True"
@@ -50,19 +49,18 @@
              AcceptsReturn="True"
              Background="#FFE4FFC1"
              MinWidth="100"
-             MinHeight="60" VerticalAlignment="Stretch" Text="Go! started 18:18:18.ff">
-            <TextBox.FontSize>
-                <MultiBinding Converter="{StaticResource StopWatcherConverter}">
-                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
-                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
-                </MultiBinding>
-            </TextBox.FontSize>
+             MinHeight="40" Text="Go! started 18:18:18.ff">
+                <TextBox.FontSize>
+                    <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                    </MultiBinding>
+                </TextBox.FontSize>
 
-        </TextBox>
-        <TextBox x:Name="CounterTextBox"
-             Grid.Column="1"
+            </TextBox>
+            <TextBox x:Name="CounterTextBox"
                  Grid.Row="1"
-             Margin="16,16,16,8"
+             Margin="16,16,16,12"
              VerticalScrollBarVisibility="Auto"
              HorizontalScrollBarVisibility="Auto"
              IsReadOnly="True"
@@ -72,26 +70,26 @@
              AcceptsReturn="True"
              Background="#FFE4FFC1"
              MinWidth="100"
-             MinHeight="60" VerticalAlignment="Stretch" Text="hh:mm:ss.fff" > 
-            <TextBox.FontSize>
-                <MultiBinding Converter="{StaticResource StopWatcherConverter}">
-                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
-                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
-                </MultiBinding>
-            </TextBox.FontSize>
+             MinHeight="40" Text="hh:mm:ss.fff" >
+                <TextBox.FontSize>
+                    <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                    </MultiBinding>
+                </TextBox.FontSize>
 
-        </TextBox>
+            </TextBox>
 
-        <StackPanel Grid.Column="1"
+            <StackPanel Grid.Column="1"
                     Grid.Row="2"
                 Orientation="Horizontal"
                 HorizontalAlignment="Center"
                 Margin="16,0,0,160"
                 VerticalAlignment="Bottom">
-            <Button Content="Stop" Width="80" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="StopButton_Click"/>
-            <Button x:Name="LapButton" Content="Lap" Width="80" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="LapButton_Click"/>
-            <Button Content="Clear" Width="80" Height="36" VerticalAlignment="Center" Click="ClearButton_Click"/>
-        </StackPanel>
+                <Button Content="Stop" Width="70" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="StopButton_Click"/>
+                <Button x:Name="LapButton" Content="Lap" Width="70" Height="36" Margin="0,0,8,0" VerticalAlignment="Center" Click="LapButton_Click"/>
+                <Button Content="Clear" Width="70" Height="36" VerticalAlignment="Center" Click="ClearButton_Click"/>
+            </StackPanel>
         </Grid>
 
     </Grid>
