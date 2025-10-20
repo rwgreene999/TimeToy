@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace TimeToy
 {
-    public class StopWatcherConverter : IMultiValueConverter
+    public class FontSizerConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

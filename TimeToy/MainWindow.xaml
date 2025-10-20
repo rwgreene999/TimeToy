@@ -8,7 +8,7 @@
        Title="Time Toy" Height="250" Width="400">
     
     <Window.Resources>
-        <local:StopWatcherConverter x:Key="StopWatcherConverter"/>
+        <local:FontSizerConverter x:Key="StopWatcherConverter"/>
         
     </Window.Resources>
 
