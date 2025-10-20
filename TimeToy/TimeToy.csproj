@@ -59,7 +59,7 @@
     <Compile Include="StopWatcher.xaml.cs">
       <DependentUpon>StopWatcher.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StopWatcherConverter.cs" />
+    <Compile Include="FontSizerConverter.cs" />
     <Compile Include="TimerManager.xaml.cs">
       <DependentUpon>TimerManager.xaml</DependentUpon>
     </Compile>

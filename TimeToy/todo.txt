@@ -11,8 +11,9 @@ In Timer
 In the Alarm 
 	* implement everything
 In general
-	* fix main colors and title and icons
+	* DONE: fix main colors and title and icons
 	* see of there is a way for all nuttons to be configured at once 
 	perhaps as a user control 
 	* see if there is a way to make the app remember last used settings
 	* change StopWatcherConverter to be used by all windows 
+	* DONE: Change windows sizes to smaller 

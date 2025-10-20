@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="StopWatcher" Height="250" Width="450">
     <Window.Resources>
-        <local:StopWatcherConverter x:Key="StopWatcherConverter"/>
+        <local:FontSizerConverter x:Key="FontSizeConverter"/>
 
     </Window.Resources>
 
@@ -51,7 +51,7 @@
              MinWidth="100"
              MinHeight="40" Text="Go! started 18:18:18.ff">
                 <TextBox.FontSize>
-                    <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                    <MultiBinding Converter="{StaticResource FontSizeConverter}">
                         <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
                         <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
                     </MultiBinding>
@@ -72,7 +72,7 @@
              MinWidth="100"
              MinHeight="40" Text="hh:mm:ss.fff" >
                 <TextBox.FontSize>
-                    <MultiBinding Converter="{StaticResource StopWatcherConverter}">
+                    <MultiBinding Converter="{StaticResource FontSizeConverter}">
                         <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
                         <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
                     </MultiBinding>
