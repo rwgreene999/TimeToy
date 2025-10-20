@@ -1,21 +1,19 @@
 In Stopwatcher
-	* DONE: disable the clear button when running
-	* DONE: implement sound countdown feature
-	* DONE: change sound countdown to 5 seconds 	
-	* DONE: standard the color around gold on main menu 
-	* DONE: Implement clear button
-	* explore the use of multiple Stopwatches (long term goal) 
+	* disable the clear button when running
+	* implement sound countdown feature
+	* change sound countdown to 5 seconds 
 	* explore the usage of user picked computer voices 
-
+	* standard the color around gold on main menu 
+	* Implement clear button
+	* explore the use of multiple Stopwatches (long term goal) 
 In Timer
 	* Implement everything 
-
 In the Alarm 
-	* Implement everything
-
+	* implement everything
 In general
 	* DONE: fix main colors and title and icons
-	* DONE: see of there is a way for all nuttons to be configured at once 	
+	* see of there is a way for all nuttons to be configured at once 
+	perhaps as a user control 
 	* see if there is a way to make the app remember last used settings
-	* DONE: change StopWatcherConverter to be used by all windows 
+	* change StopWatcherConverter to be used by all windows 
 	* DONE: Change windows sizes to smaller 
