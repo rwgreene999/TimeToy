@@ -38,8 +38,8 @@
                                 <Setter TargetName="PART_Border" Property="Background">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#FFD3D3D3" Offset="0"/>
-                                            <GradientStop Color="#FFB0B0B0" Offset="1"/>
+                                            <GradientStop Color="#FFB8A67B" Offset="0"/>
+                                            <GradientStop Color="#FF988B71" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Setter.Value>
                                 </Setter>
