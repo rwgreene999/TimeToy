@@ -70,16 +70,18 @@ namespace TimeToy
         // The code you have is correct for disabling those buttons:
         private void DisableAllStartButtons()
         {
+            StopWatcherNow.IsEnabled = false;
             StopWatcher5Seconds.IsEnabled = false;
             StopWatcher10Seconds.IsEnabled = false;
-            StopWatcher10Sound.IsEnabled = false;
+            StopWatcher5Sound.IsEnabled = false;
             ClearButton.IsEnabled = false;
         }
         private void EnableAllStartButtons()
         {
+            StopWatcherNow.IsEnabled = true;
             StopWatcher5Seconds.IsEnabled = true;
             StopWatcher10Seconds.IsEnabled = true;
-            StopWatcher10Sound.IsEnabled = true;
+            StopWatcher5Sound.IsEnabled = true;
             ClearButton.IsEnabled = true;   
         }
 
@@ -193,6 +195,15 @@ namespace TimeToy
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {            
             PrepareForStopwatchAction(); 
+
+        }
+
+        private async void StopWatcherNow_Click(object sender, RoutedEventArgs e)
+        {
+            DisableAllStartButtons();
+            PrepareForStopwatchAction();
+            await LaunchTheStopwatch(false);
+            EnableAllStartButtons();
 
         }
     } 
