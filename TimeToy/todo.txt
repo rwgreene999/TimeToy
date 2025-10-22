@@ -9,7 +9,11 @@ In Stopwatcher
 	* explore the usage of user picked computer voices 
 
 In Timer
-	* Implement everything 
+	* Done: Timer Implement everything for basic timer Start and End functionality
+	* Snooze Implement Snooze and Repeat features
+	* Buttons Disable Snooze, Repeat Buttons when not applicable
+	* UserNotification Add option for user selected  sound when timer ends
+	* RethinkTimeBoxes Rethink the two time boxes to be more user friendly
 
 In the Alarm 
 	* implement everything
