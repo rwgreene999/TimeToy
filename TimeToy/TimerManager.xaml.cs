@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,20 +24,46 @@ namespace TimeToy
 
     public partial class TimerManager : Window, INotifyPropertyChanged
     {
+        private TimeSpan _originalSelectedTime = TimeSpan.Zero;
+        private TimeSpan _timeBacking = TimeSpan.Zero;
+        private TimeSpan _time
+        {
+            get => _timeBacking;
+            set
+            {
+                if (value == TimeSpan.Zero && _timeBacking != TimeSpan.Zero)
+                {
+                    SetButtonState(ButtonState.Zero);
+                }
+                else if (value != TimeSpan.Zero && _timeBacking == TimeSpan.Zero)
+                {
+                    SetButtonState(ButtonState.Ready);
+                }
+                _timeBacking = value;
+                OnPropertyChanged(nameof(TimeString));
+            }
+        }
 
-        private TimeSpan _time;
         Brush _originalTimeTextBox = Brushes.White;
         private DateTime? _targetTime;
         private System.Windows.Threading.DispatcherTimer _dispatcherTimer;
 
+        private enum ButtonState
+        {
+            Zero,
+            Ready,
+            Going,
+            Snoozed,
+            Ended
+        }
 
         public TimerManager()
         {
             InitializeComponent();
             _time = TimeSpan.Zero;
             DataContext = this;
-            _originalTimeTextBox = TimeTextbox.Background; 
-
+            _originalTimeTextBox = TimeTextbox.Background;
+            SetButtonState(ButtonState.Zero);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -76,12 +103,14 @@ namespace TimeToy
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            _dispatcherTimer?.Stop();
             this.Close();
         }
 
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {
+            _originalSelectedTime = _time; 
             if (_time.TotalSeconds <= 0)
                 return;
 
@@ -93,6 +122,8 @@ namespace TimeToy
                 _dispatcherTimer.Tick += DispatcherTimer_Tick;
             }
             _dispatcherTimer.Start();
+            SetButtonState(ButtonState.Going);
+
         }
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -110,7 +141,8 @@ namespace TimeToy
                     OnPropertyChanged(nameof(TimeString));
                     _dispatcherTimer.Stop();
                     _targetTime = null;
-                    NotifyUserTimeIsUp(); 
+                    NotifyUserTimeIsUp();
+                    SetButtonState(ButtonState.Ended);
                 }
             }
         }
@@ -127,7 +159,13 @@ namespace TimeToy
 
         private void SnoozeButton_Click(object sender, RoutedEventArgs e)
         {
+            SetButtonState(ButtonState.Snoozed);
+            SnoozeButton.Content = "WIP Snooze 5 sec";
 
+            System.Threading.Thread.Sleep(5000); // Blocking sleep for 5 seconds
+
+            SnoozeButton.Content = "Snooze";
+            SetButtonState(ButtonState.Going);
         }
 
         private void EndButton_Click(object sender, RoutedEventArgs e)
@@ -137,8 +175,17 @@ namespace TimeToy
             _dispatcherTimer?.Stop();
             _time = TimeSpan.Zero; 
             OnPropertyChanged(nameof(TimeString));
-
+            SetButtonState( ButtonState.Ended);
         }
+
+        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            _time = _originalSelectedTime;
+            OnPropertyChanged(nameof(TimeString));
+            SetButtonState(ButtonState.Ready);
+            GoButton_Click(GoButton, new RoutedEventArgs());
+        }
+
 
         private void TimeTextbox_Changed(object sender, TextChangedEventArgs e)
         {
@@ -213,5 +260,43 @@ namespace TimeToy
                 // Optionally, handle invalid input
             }
         }
+
+        private void SetButtonState(ButtonState state)
+        {
+            switch (state)
+            {
+                case ButtonState.Zero:
+                    GoButton.IsEnabled = false;
+                    EndButton.IsEnabled = false;
+                    SnoozeButton.IsEnabled = false;
+                    RepeatButton.IsEnabled = false; 
+                    break;
+                case ButtonState.Ready:
+                    GoButton.IsEnabled = true;
+                    EndButton.IsEnabled = false;
+                    SnoozeButton.IsEnabled = false;
+                    RepeatButton.IsEnabled = false;
+                    break;
+                case ButtonState.Going:
+                    GoButton.IsEnabled = false;
+                    EndButton.IsEnabled = true;
+                    SnoozeButton.IsEnabled = true;
+                    RepeatButton.IsEnabled = false;
+                    break;
+                case ButtonState.Snoozed:
+                    GoButton.IsEnabled = false;
+                    EndButton.IsEnabled = true;
+                    SnoozeButton.IsEnabled = true;
+                    RepeatButton.IsEnabled = false;
+                    break;
+                case ButtonState.Ended:
+                    GoButton.IsEnabled = false;
+                    EndButton.IsEnabled = false;
+                    SnoozeButton.IsEnabled = false;
+                    RepeatButton.IsEnabled = true;
+                    break;
+            }
+        }
+
     }
 }
