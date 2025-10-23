@@ -45,25 +45,33 @@ namespace TimeToy
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Add10Minutes_Click(object sender, RoutedEventArgs e)
+        private void AddTimeToTimer(TimeSpan timeToAdd)
         {
-            _time = _time.Add(TimeSpan.FromMinutes(10));
+            _time = _time.Add(timeToAdd);
             OnPropertyChanged(nameof(TimeString));
+            if (_dispatcherTimer?.IsEnabled == true)
+            {
+                _targetTime = _targetTime.Value.Add(timeToAdd);
+            }
         }
+
+
+        private void Add10Minutes_Click(object sender, RoutedEventArgs e)
+        {         
+            AddTimeToTimer(TimeSpan.FromMinutes(10));
+        }
+
         private void Add1Minute_Click(object sender, RoutedEventArgs e)
         {
-            _time = _time.Add(TimeSpan.FromMinutes(1));
-            OnPropertyChanged(nameof(TimeString));
+            AddTimeToTimer(TimeSpan.FromMinutes(1));
         }
         private void Add30Seconds_Click(object sender, RoutedEventArgs e)
         {
-            _time = _time.Add(TimeSpan.FromSeconds(30));
-            OnPropertyChanged(nameof(TimeString));
+            AddTimeToTimer(TimeSpan.FromSeconds(30));
         }
         private void Add30Minutes_Click(object sender, RoutedEventArgs e)
         {
-            _time = _time.Add(TimeSpan.FromMinutes(30));
-            OnPropertyChanged(nameof(TimeString));
+            AddTimeToTimer(TimeSpan.FromMinutes(30));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -126,7 +134,10 @@ namespace TimeToy
         {
             // Remove topmost when user presses End
             this.Topmost = false;
-            // Optionally, stop timer or close window
+            _dispatcherTimer?.Stop();
+            _time = TimeSpan.Zero; 
+            OnPropertyChanged(nameof(TimeString));
+
         }
 
         private void TimeTextbox_Changed(object sender, TextChangedEventArgs e)
