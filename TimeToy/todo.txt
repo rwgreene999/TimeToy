@@ -4,8 +4,7 @@ In Stopwatcher
 	* DONE: change sound countdown to 5 seconds 
 	* DONE: standard the color around gold on main menu 
 	* DONE: Implement clear button
-	* StartNow Need a 'Start Now' button and need it now! also rearrange the buttons 
-	* explore the use of multiple Stopwatches (long term goal) 
+	* DONE a while back!!!! StartNow Need a 'Start Now' button and need it now! also rearrange the buttons 
 	* explore the usage of user picked computer voices 
 
 In Timer
@@ -27,4 +26,5 @@ In general
 	* DONE: see of there is a way for all buttons to be configured at once 
 	* DONE: change StopWatcherConverter to be used by all windows 
 	* DONE: Change windows sizes to smaller 
+	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches""
 	* see if there is a way to make the app remember last used settings

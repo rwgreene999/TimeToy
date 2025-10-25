@@ -29,13 +29,13 @@ namespace TimeToy
         private void Timer_Click(object sender, RoutedEventArgs e)
         {
             var timerManager = new TimerManager();
-            timerManager.ShowDialog();
+            timerManager.Show();
         }
 
         private void StopWatch_Click(object sender, RoutedEventArgs e)
         {
             var stopWatcherManager = new StopWatcher();
-            stopWatcherManager.ShowDialog();
+            stopWatcherManager.Show();
 
         }
 
