@@ -14,6 +14,7 @@ In Timer
 	* DONE: Snooze "Implement real Snooze features had to refactor too much! and add state processing mode "	
 	* DONE: RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
 	* Notification "update notification to bring window back from minimized state"
+	* DOING: NotificationTime "Add field showing the expected notification time. "
 
 	* UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"

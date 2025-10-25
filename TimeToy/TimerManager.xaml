@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="TimerManager" Height="200" Width="490">
     <Grid>
-        
+
         <Grid>
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -17,6 +17,7 @@
             </Grid.Background>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -50,17 +51,17 @@
                 <TextBox Text="or enter mm:ss" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
 
                 <TextBox x:Name="TimeTextbox" 
-         Width="120" 
-         Margin="0,0,0,0" 
-         VerticalContentAlignment="Center" 
-         HorizontalContentAlignment="Center"
-         ToolTipService.Placement="Top"
-         Background="#FFE4FFC1" 
-         TextChanged="TimeTextbox_Changed">
+                        Width="120" 
+                        Margin="0,0,0,0" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Center"
+                        ToolTipService.Placement="Top"
+                        Background="#FFE4FFC1" 
+                        TextChanged="TimeTextbox_Changed">
                 </TextBox>
-                
+
             </StackPanel>
-            
+
 
             <!-- Row 3: Action Buttons -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,10,10,0">
@@ -71,9 +72,7 @@
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10,10,10,0" HorizontalAlignment="Center">
                 <Grid>
-                    <TextBox 
-                             
-                             Text="{Binding TimeString, UpdateSourceTrigger=PropertyChanged}"
+                    <TextBox Text="{Binding TimeString, UpdateSourceTrigger=PropertyChanged}"
                              IsReadOnly="True"
                              Margin="0"
                              HorizontalContentAlignment="Center"
@@ -88,6 +87,27 @@
                              HorizontalAlignment="Center"/>
                 </Grid>
             </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,5,10,0">
+
+                <TextBox Text="Expected notificatoin time" IsReadOnly="True" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
+
+                <TextBox x:Name="TimeNotificationTextbox" 
+                         Text="{Binding TimeNotification, UpdateSourceTrigger=PropertyChanged}"
+                         IsReadOnly="True"
+                        Width="204" 
+                        Margin="0,0,0,0" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Center"
+                        ToolTipService.Placement="Top"
+                        Background="#FFE4FFC1" 
+                        >
+                </TextBox>
+
+            </StackPanel>
+
+
+
         </Grid>
     </Grid>
 </Window>

@@ -24,7 +24,7 @@ namespace TimeToy
 
     public partial class TimerManager : Window, INotifyPropertyChanged
     {
-        private TimeSpan _originalSelectedTime = TimeSpan.Zero;
+        private TimeSpan _originalSelectedNotification = TimeSpan.Zero;
         private TimeSpan _timeBacking = TimeSpan.Zero;
         private TimeSpan _time
         {
@@ -45,7 +45,26 @@ namespace TimeToy
         }
 
         Brush _originalTimeTextboxBackground = Brushes.White;
-        private DateTime? _targetExpireTime;
+        private DateTime _expectedExpireTimeBacking = DateTime.MinValue;
+        DateTime ExpectedExpireTime
+        {
+            get => _expectedExpireTimeBacking;
+            set
+            {
+                _expectedExpireTimeBacking = value;
+                if (_expectedExpireTimeBacking != null && _expectedExpireTimeBacking != DateTime.MinValue)
+                {
+                    TimeNotificationTextbox.Text = $"Notification time: {_expectedExpireTimeBacking.ToString("HH:mm:ss")}";
+                }
+                else
+                {
+                    TimeNotificationTextbox.Text = string.Empty;
+                }
+            }
+        }
+
+
+
         private System.Windows.Threading.DispatcherTimer _dispatcherTimer;
         TimeSpan _snoozedTimeRemaining; 
 
@@ -84,7 +103,7 @@ namespace TimeToy
             OnPropertyChanged(nameof(TimeString));
             if (_dispatcherTimer?.IsEnabled == true)
             {
-                _targetExpireTime = _targetExpireTime.Value.Add(timeToAdd);
+                ExpectedExpireTime = ExpectedExpireTime.Add(timeToAdd);
             }
         }
 
@@ -116,11 +135,11 @@ namespace TimeToy
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {
-            _originalSelectedTime = _time; 
+            _originalSelectedNotification = _time; 
             if (_time.TotalSeconds <= 0)
                 return;
 
-            _targetExpireTime = DateTime.Now.Add(_time);
+            ExpectedExpireTime = DateTime.Now.Add(_time);
             if (_dispatcherTimer == null)
             {
                 _dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
@@ -135,9 +154,9 @@ namespace TimeToy
         {
             if (_currentOperationState != OperationState.Snoozed )
             {
-                if (_targetExpireTime.HasValue)
+                if (ExpectedExpireTime != DateTime.MinValue)
                 {
-                    var remaining = _targetExpireTime.Value - DateTime.Now;
+                    var remaining = ExpectedExpireTime - DateTime.Now;
                     if (remaining.TotalSeconds > 0)
                     {
                         _time = remaining;
@@ -148,7 +167,7 @@ namespace TimeToy
                         _time = TimeSpan.Zero;
                         OnPropertyChanged(nameof(TimeString));
                         _dispatcherTimer.Stop();
-                        _targetExpireTime = null;
+                        ExpectedExpireTime = DateTime.MinValue;
                         NotifyUserTimeIsUp();
                         SetOperationalState(OperationState.Ended);
                     }
@@ -170,15 +189,17 @@ namespace TimeToy
         {
             if (_currentOperationState == OperationState.Snoozed)
             {
-                _targetExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
+                ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
                 SetOperationalState(OperationState.Going);
                 SnoozeButton.Content = "Snooze";
+                
             }
             else
             {  
                 SetOperationalState(OperationState.Snoozed);
-                _snoozedTimeRemaining = _targetExpireTime.Value - DateTime.Now;
+                _snoozedTimeRemaining = ExpectedExpireTime - DateTime.Now;
                 SnoozeButton.Content = "Resume";
+                TimeNotificationTextbox.Text = String.Empty;
             }
 
         }
@@ -192,8 +213,8 @@ namespace TimeToy
             OnPropertyChanged(nameof(TimeString));
             if (_currentOperationState == OperationState.Snoozed)
             {
-                _targetExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
-                _currentOperationState = OperationState.Ended;
+                ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
+                SetOperationalState(OperationState.Ended); 
                 SnoozeButton.Content = "Snooze";
             }
             SetOperationalState( OperationState.Ended);
@@ -201,7 +222,7 @@ namespace TimeToy
 
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
-            _time = _originalSelectedTime;
+            _time = _originalSelectedNotification;
             OnPropertyChanged(nameof(TimeString));
             SetOperationalState(OperationState.Ready);
             GoButton_Click(GoButton, new RoutedEventArgs());
