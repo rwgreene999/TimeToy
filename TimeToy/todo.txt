@@ -13,7 +13,7 @@ In Timer
 	* Done: TimerAdd "Update time while active"
 	* DONE: Buttons "Disable Snooze, Repeat Buttons when not applicable, snooze is next"
 	* DONE: Snooze "Implement real Snooze features had to refactor too much! and add state processing mode "	
-	* RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
+	* DONE: RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
 
 	* UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"

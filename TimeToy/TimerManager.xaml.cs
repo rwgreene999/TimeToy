@@ -33,11 +33,11 @@ namespace TimeToy
             {
                 if (value == TimeSpan.Zero && _timeBacking != TimeSpan.Zero)
                 {
-                    SetButtonState(OperationState.Zero);
+                    SetOperationalState(OperationState.Zero);
                 }
                 else if (value != TimeSpan.Zero && _timeBacking == TimeSpan.Zero)
                 {
-                    SetButtonState(OperationState.Ready);
+                    SetOperationalState(OperationState.Ready);
                 }
                 _timeBacking = value;
                 OnPropertyChanged(nameof(TimeString));
@@ -69,7 +69,7 @@ namespace TimeToy
             _time = TimeSpan.Zero;
             DataContext = this;
             _originalTimeTextboxBackground = TimeTextbox.Background;
-            SetButtonState(OperationState.Zero);
+            SetOperationalState(OperationState.Zero);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -128,7 +128,7 @@ namespace TimeToy
                 _dispatcherTimer.Tick += DispatcherTimer_Tick;
             }
             _dispatcherTimer.Start();
-            SetButtonState(OperationState.Going);
+            SetOperationalState(OperationState.Going);
 
         }
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -150,7 +150,7 @@ namespace TimeToy
                         _dispatcherTimer.Stop();
                         _targetExpireTime = null;
                         NotifyUserTimeIsUp();
-                        SetButtonState(OperationState.Ended);
+                        SetOperationalState(OperationState.Ended);
                     }
                 }
             }
@@ -171,14 +171,12 @@ namespace TimeToy
             if (_currentOperationState == OperationState.Snoozed)
             {
                 _targetExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
-                _currentOperationState = OperationState.Going;
-                SetButtonState(OperationState.Going);
+                SetOperationalState(OperationState.Going);
                 SnoozeButton.Content = "Snooze";
             }
             else
             {  
-                _currentOperationState = OperationState.Snoozed;
-                SetButtonState(OperationState.Snoozed);
+                SetOperationalState(OperationState.Snoozed);
                 _snoozedTimeRemaining = _targetExpireTime.Value - DateTime.Now;
                 SnoozeButton.Content = "Resume";
             }
@@ -198,14 +196,14 @@ namespace TimeToy
                 _currentOperationState = OperationState.Ended;
                 SnoozeButton.Content = "Snooze";
             }
-            SetButtonState( OperationState.Ended);
+            SetOperationalState( OperationState.Ended);
         }
 
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
             _time = _originalSelectedTime;
             OnPropertyChanged(nameof(TimeString));
-            SetButtonState(OperationState.Ready);
+            SetOperationalState(OperationState.Ready);
             GoButton_Click(GoButton, new RoutedEventArgs());
         }
 
@@ -284,8 +282,9 @@ namespace TimeToy
             }
         }
 
-        private void SetButtonState(OperationState state)
+        private void SetOperationalState(OperationState state)
         {
+            _currentOperationState = state;
             switch (state)
             {
                 case OperationState.Zero:
