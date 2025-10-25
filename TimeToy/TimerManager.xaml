@@ -25,7 +25,7 @@
 
             <!-- Row 1: Add Time -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-                <TextBox Text="add time" IsReadOnly="True" Width="80" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
+                <TextBox Text="add time" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
                 <Button Content="30 seconds" Width="90" Margin="0,0,5,0" Click="Add30Seconds_Click"/>
                 <Button Content="1 minute" Width="90" Margin="0,0,5,0" Click="Add1Minute_Click"/>
                 <Button Content="10 minute" Width="90" Margin="0,0,5,0" Click="Add10Minutes_Click"/>
@@ -34,7 +34,7 @@
 
             <!-- Row 2: Enter Time -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,5,10,0">
-                <TextBox Text="enter time:" IsReadOnly="True" Width="80" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
+                <TextBox Text="or enter mm:ss" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
                 <TextBox x:Name="TimeTextbox" Width="120" Margin="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFE4FFC1" TextChanged="TimeTextbox_Changed"/>
             </StackPanel>
 
