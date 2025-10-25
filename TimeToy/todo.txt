@@ -13,6 +13,7 @@ In Timer
 	* DONE: Buttons "Disable Snooze, Repeat Buttons when not applicable, snooze is next"
 	* DONE: Snooze "Implement real Snooze features had to refactor too much! and add state processing mode "	
 	* DONE: RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
+	* Notification "update notification to bring window back from minimized state"
 
 	* UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
@@ -26,5 +27,6 @@ In general
 	* DONE: see of there is a way for all buttons to be configured at once 
 	* DONE: change StopWatcherConverter to be used by all windows 
 	* DONE: Change windows sizes to smaller 
-	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches""
+	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches"
 	* see if there is a way to make the app remember last used settings
+	* DONE: TextNotification "Add hover popup explaining the fields and buttons"
