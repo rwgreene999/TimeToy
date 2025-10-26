@@ -32,7 +32,8 @@ In general
 	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches"
 	* see if there is a way to make the app remember last used settings
 	* DONE: TextNotification "Add hover popup explaining the fields and buttons"
-	* DOING Options1 "Part 1: Implement Options window to set app wide settings"
+	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
 	*       Options2 "Part 2: Implement ability to open, use and save config file"
 	*       Options3 "Part 3: Implement StopWatch Options"
 	*       Options4 "Part 4: Apply configuration to other panels "
+	* DOING: WindowsIcon "Get a better icon for the app and windows"
