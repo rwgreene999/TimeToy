@@ -60,5 +60,11 @@ namespace TimeToy
             this.Close();
         }
 
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            var OptionsManager = new OptionsManager();
+            OptionsManager.ShowDialog();
+
+        }
     }
 }

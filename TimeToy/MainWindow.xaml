@@ -26,15 +26,20 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Timer" Width="200" Height="40" Margin="0,0,0,16" 
+            <Button Content="Timer" Width="200" Height="40" Margin="0,0,0,12" 
                     Click="Timer_Click" HorizontalAlignment="Left"
                     ToolTip="Click to start a timer and get notified when it is finshed, think Kitchen Timer"
                     />
-            <Button Content="Stop Watch" Width="200" Height="40" Margin="0,0,0,16" 
+            <Button Content="Stop Watch" Width="200" Height="40" Margin="0,0,0,12" 
                     Click="StopWatch_Click" HorizontalAlignment="Left"
                     ToolTip="Click to start action duration timer with optional countdown"
                     />
-            <Button Content="Alarm" Width="200" Height="40" Click="Alarm_Click" HorizontalAlignment="Left"/>
+            <Button Content="Alarm" Width="200" Height="40" Margin="0,0,0,12"
+                    Click="Alarm_Click" HorizontalAlignment="Left"/>
+                    
+            <Button Content="Options" Width="200" Height="40" Margin="0,0,0,12"
+                    Click="Options_Click" HorizontalAlignment="Left"/>
+                    
         </StackPanel>
         <TextBox x:Name="OutputTextBox"
          Grid.Column="1"
