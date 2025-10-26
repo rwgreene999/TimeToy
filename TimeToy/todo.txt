@@ -5,7 +5,7 @@ In Stopwatcher
 	* DONE: standard the color around gold on main menu 
 	* DONE: Implement clear button
 	* DONE a while back!!!! StartNow Need a 'Start Now' button and need it now! also rearrange the buttons 
-	* explore the usage of user picked computer voices 
+	* canceled, see general->Options explore the usage of user picked computer voices 
 
 In Timer
 	* Done: Timer Implement everything for basic timer Start and End functionality
@@ -13,10 +13,11 @@ In Timer
 	* DONE: Buttons "Disable Snooze, Repeat Buttons when not applicable, snooze is next"
 	* DONE: Snooze "Implement real Snooze features had to refactor too much! and add state processing mode "	
 	* DONE: RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
-	* Notification "update notification to bring window back from minimized state"
-	* DOING: NotificationTime "Add field showing the expected notification time. "
+	* DONE somewhere: Notification "update notification to bring window back from minimized state"
+	* DONE: NotificationTime "Add field showing the expected notification time. "	
+	* BUG:  FixTopMost "When Notify happens, screen become topmost.  Needs to top that after user touches it" 
 
-	* UserNotification "Add option for user selected  sound when timer ends"
+	* Cancel, see UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
 
 
@@ -31,3 +32,7 @@ In general
 	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches"
 	* see if there is a way to make the app remember last used settings
 	* DONE: TextNotification "Add hover popup explaining the fields and buttons"
+	* DOING Options1 "Part 1: Implement Options window to set app wide settings"
+	*       Options2 "Part 2: Implement ability to open, use and save config file"
+	*       Options3 "Part 3: Implement StopWatch Options"
+	*       Options4 "Part 4: Apply configuration to other panels "

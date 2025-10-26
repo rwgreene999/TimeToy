@@ -63,6 +63,9 @@
     <Compile Include="TimerManager.xaml.cs">
       <DependentUpon>TimerManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OptionsManager.xaml.cs">
+      <DependentUpon>OptionsManager.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OptionsManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
