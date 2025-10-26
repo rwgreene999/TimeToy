@@ -1,55 +1,53 @@
 ﻿<Window x:Class="TimeToy.MainWindow"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       xmlns:local="clr-namespace:TimeToy"
-       mc:Ignorable="d"
-       Title="Time Toy" Height="250" Width="400">
-    
-    <Window.Resources>
-        <local:FontSizerConverter x:Key="StopWatcherConverter"/>
-        
-    </Window.Resources>
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:TimeToy"
+      mc:Ignorable="d"      
+      Title="Time Toy" Height="250" Width="400">
+   
+   <Window.Resources>
+       <local:FontSizerConverter x:Key="StopWatcherConverter"/>
+   </Window.Resources>
 
+   <Grid>
+       <Grid.Background>
+           <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+               <GradientStop Color="Goldenrod" Offset="0"/>
+               <GradientStop Color="#7FF3AA21" Offset="1"/>
+           </LinearGradientBrush>
+       </Grid.Background>
+       <Grid.ColumnDefinitions>
+           <ColumnDefinition Width="250"/>
+           <ColumnDefinition Width="*"/>
+       </Grid.ColumnDefinitions>
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color= "Goldenrod" Offset="0"/>
-                <GradientStop Color="#7FF3AA21" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Timer" Width="200" Height="40" Margin="0,0,0,12" 
-                    Click="Timer_Click" HorizontalAlignment="Left"
-                    ToolTip="Click to start a timer and get notified when it is finshed, think Kitchen Timer"
-                    />
-            <Button Content="Stop Watch" Width="200" Height="40" Margin="0,0,0,12" 
-                    Click="StopWatch_Click" HorizontalAlignment="Left"
-                    ToolTip="Click to start action duration timer with optional countdown"
-                    />
-            <Button Content="Alarm" Width="200" Height="40" Margin="0,0,0,12"
-                    Click="Alarm_Click" HorizontalAlignment="Left"/>
-                    
-            <Button Content="Options" Width="200" Height="40" Margin="0,0,0,12"
-                    Click="Options_Click" HorizontalAlignment="Left"/>
-                    
-        </StackPanel>
-        <TextBox x:Name="OutputTextBox"
-         Grid.Column="1"
-         Margin="16"
-         VerticalScrollBarVisibility="Auto"
-         HorizontalScrollBarVisibility="Auto"
-         IsReadOnly="True"
-         TextWrapping="Wrap"
-         FontFamily="Consolas"
-         FontSize="14"
-         AcceptsReturn="True"/>
-    </Grid>
+       <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+           <Button Content="Timer" Width="200" Height="40" Margin="0,0,0,12" 
+                   Click="Timer_Click" HorizontalAlignment="Left"
+                   ToolTip="Click to start a timer and get notified when it is finished, think Kitchen Timer"
+                   />
+           <Button Content="Stop Watch" Width="200" Height="40" Margin="0,0,0,12" 
+                   Click="StopWatch_Click" HorizontalAlignment="Left"
+                   ToolTip="Click to start action duration timer with optional countdown"
+                   />
+           <Button Content="Alarm" Width="200" Height="40" Margin="0,0,0,12"
+                   Click="Alarm_Click" HorizontalAlignment="Left"/>
+                   
+           <Button Content="Options" Width="200" Height="40" Margin="0,0,0,12"
+                   Click="Options_Click" HorizontalAlignment="Left"/>
+                   
+       </StackPanel>
+       <TextBox x:Name="OutputTextBox"
+        Grid.Column="1"
+        Margin="16"
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Auto"
+        IsReadOnly="True"
+        TextWrapping="Wrap"
+        FontFamily="Consolas"
+        FontSize="14"
+        AcceptsReturn="True"/>
+   </Grid>
 </Window>
