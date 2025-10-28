@@ -81,14 +81,15 @@ namespace TimeToy
         OperationState _currentOperationState = OperationState.Zero;
 
 
-
-        public TimerManager()
+        private RunConfig _config; 
+        public TimerManager(RunConfig config)
         {
             InitializeComponent();
             _time = TimeSpan.Zero;
             DataContext = this;
             _originalTimeTextboxBackground = TimeTextbox.Background;
             SetOperationalState(OperationState.Zero);
+            _config = config;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
