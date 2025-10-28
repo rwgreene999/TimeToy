@@ -21,20 +21,22 @@ namespace TimeToy
     /// </summary>
     public partial class MainWindow : Window
     {
+        RunConfig _config; 
         public MainWindow()
         {
             InitializeComponent();
+            _config = RunConfigManager.Load();
         }
 
         private void Timer_Click(object sender, RoutedEventArgs e)
         {
-            var timerManager = new TimerManager();
+            var timerManager = new TimerManager(_config);
             timerManager.Show();
         }
 
         private void StopWatch_Click(object sender, RoutedEventArgs e)
         {
-            var stopWatcherManager = new StopWatcher();
+            var stopWatcherManager = new StopWatcher(_config);
             stopWatcherManager.Show();
 
         }

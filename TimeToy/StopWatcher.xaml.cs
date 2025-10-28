@@ -36,11 +36,14 @@ namespace TimeToy
         private bool _isTimerRunning;
         private bool _showTimer;
         private SpeechSynthesizer _synth = new SpeechSynthesizer();
-        public StopWatcher()
+        RunConfig _config; 
+        public StopWatcher(RunConfig config)
         {
             InitializeComponent();
             PrepareForStopwatchAction();
             _synth.Rate = 3;
+            _config = config;
+
         }
         protected override void OnClosed(EventArgs e)
         {
