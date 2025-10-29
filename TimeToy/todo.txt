@@ -43,8 +43,11 @@ In general
 	Options panel: 
 	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
 	* DONE: Options2 "Part 2: Implement ability to open, use and save config file Next: Options3"
-	* Doing:      Options3 "Part 3: Implement usage of config file in stopwatch and timer"*       
+	* DONE:      Options3 "Part 3: Implement usage of config file in stopwatch and timer"*       
+	* DOING:      Options3.5 "handle StopWatch options separately "
+	*       Options3.6 "ImplementUsage of options in Stopwatch and Timer "
+	*       Options3.7 "IMplement error handling if selected voice not valid."
+
 	*       Options4 "Part 4: consider when selections are invalid for that machine like voice choice or missung music file "
-	*       Options3.5 "handle StopWatch options separately "
 	* DONE: WindowsIcon "Get a better icon for the app and windows"
 	* someday: OptionsFileMissing "Open select file in same folder as previous selection, handle missing file "

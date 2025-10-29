@@ -18,7 +18,8 @@ namespace TimeToy
     public class StopWatchSettings
     {
         public string Voice { get; set; } = String.Empty;
-        // WIP there will be more when I start saving window locations 
+        public double Volume { get; set; } = 100.0;
+        
     }
     public class RunConfig
     {
