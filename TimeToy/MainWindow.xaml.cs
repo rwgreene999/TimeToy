@@ -64,7 +64,7 @@ namespace TimeToy
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            var OptionsManager = new OptionsManager();
+            var OptionsManager = new OptionsManager(_config);
             OptionsManager.ShowDialog();
 
         }

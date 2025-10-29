@@ -15,7 +15,7 @@
 
             <StackPanel >
                 <!-- Main TextBox -->
-                <TextBlock Text="TimeToy's Notification Timer Options " FontWeight="Bold"/>
+                <TextBlock Text="Timer's Notification Options " FontWeight="Bold"/>
                 
                     <!-- Radio Buttons -->
                 <StackPanel Orientation="Horizontal" Margin="20,5,0,4">
@@ -33,8 +33,8 @@
                     <TextBox x:Name="VoiceTextBox" Width="300" Margin="0,0,0,8"/>
                     <TextBlock Text="Select computer voice:" Margin="0,0,0,4"/>
                     <ComboBox x:Name="VoiceComboBox" Width="200" Margin="0,0,0,8"/>
-                    <Button Content="Test Voice" Width="100" Click="TestVoice_Click"/>
-                    <Button Content="Save" Width="100" Click="SaveVoice_Click"/>
+                    <Button Content="Test Voice" Width="100" Click="VoiceTest_Click"/>
+                    <Button Content="Save" Width="100" Click="VoiceSave_Click"/>
                 </StackPanel>
 
                 <!-- Music Options -->
@@ -42,9 +42,9 @@
                     <TextBlock Text="Select music file:" Margin="0,0,0,4"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="MusicFileTextBox" Width="200" IsReadOnly="True"/>
-                        <Button Content="Browse..." Width="80" Margin="8,0,0,0" Click="BrowseMusic_Click"/>
+                        <Button Content="Browse..." Width="80" Margin="8,0,0,0" Click="MusicBrowse_Click"/>
                     </StackPanel>
-                    <Button Content="Test Music" Width="100" Margin="0,8,0,0" Click="TestMusic_Click"/>
+                    <Button Content="Test Music" Width="100" Margin="0,8,0,0" Click="MusicTest_Click"/>
                     <Button Content="Save" Width="100" Click="SaveMusic_Click"/>
                 </StackPanel>
 
