@@ -53,8 +53,25 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
                 <TextBlock Text= " " FontWeight="Bold"/>
-                <TextBlock Text="TimeToy's Stop Watch Options " FontWeight="Bold"/>
-
+                <StackPanel >
+                <TextBlock Text="StopWatch Options " FontWeight="Bold"/>
+                    <StackPanel Margin="20,5,0,4">
+                        <TextBlock Text="Select computer voice:" Margin="0,0,0,4"/>
+                        <ComboBox x:Name="StopWatchComboBox" Width="200" Margin="0,0,0,8"/>
+                        <TextBlock Text="Speaking volume" />
+                        <StackPanel Orientation="Horizontal" Margin="20,0,0,8">
+                            <Slider x:Name="StopWatchVolumeSlider" Minimum="0" Maximum="100" 
+                                    Value="100" Width="150" 
+                                    TickFrequency="10" IsSnapToTickEnabled="True" 
+                                    ToolTip="Set how much it uses of your current Windows volume" 
+                                    />
+                            <TextBlock Text="{Binding ElementName=StopWatchVolumeSlider, Path=Value, StringFormat=' {0}%'}" VerticalAlignment="Center" Margin="8,0,0,0"
+                                       ToolTip="Current speaking volume percentage."/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Content="Test Voice" Width="100" Click="StopWatchTest_Click"/>
+                    <Button Content="Save" Width="100" Click="StopWatchSave_Click"/>
+                </StackPanel>
             </StackPanel>
 
 
