@@ -11,10 +11,12 @@ namespace TimeToy
 {
     public partial class OptionsManager : Window
     {
+        RunConfig _config; 
         private MediaPlayer mediaPlayer = new MediaPlayer();
-        public OptionsManager()
+        public OptionsManager(RunConfig config )
         {
             InitializeComponent();
+            _config = config; 
             // Populate installed voices
             using (var synth = new SpeechSynthesizer())
             {
@@ -28,10 +30,28 @@ namespace TimeToy
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
 
             this.Closed += (s, e) => { mediaPlayer.Close(); };
+            LoadedDataFromSettings();
+        }
+
+        private void LoadedDataFromSettings()
+        {
+            if ( _config.TimerOptions.Notification == TimerNotificationOptions.Voice)
+            {
+                VoiceRadio.IsChecked = true;
+            }
+            else if (_config.TimerOptions.Notification == TimerNotificationOptions.Sound)
+            {
+                MusicRadio.IsChecked = true;
+            }
+            VoiceTextBox.Text = _config.TimerOptions.Comment;
+            VoiceComboBox.SelectedItem = _config.TimerOptions.Voice;
+            MusicFileTextBox.Text = _config.TimerOptions.Filename;
+            
+            
+
 
         }
 
-        
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
@@ -55,7 +75,7 @@ namespace TimeToy
             }
         }
 
-        private void TestVoice_Click(object sender, RoutedEventArgs e)
+        private void VoiceTest_Click(object sender, RoutedEventArgs e)
         {
             var text = VoiceTextBox.Text;
             var voice = VoiceComboBox.SelectedItem as string;
@@ -69,15 +89,25 @@ namespace TimeToy
             }
         }
 
-        private void SaveVoice_Click(object sender, RoutedEventArgs e)
+        private void VoiceSave_Click(object sender, RoutedEventArgs e)
         {
-            var text = VoiceTextBox.Text;
-            var voice = VoiceComboBox.SelectedItem as string;
-            MessageBox.Show($"WIP Saved voice settings:\nVoice: {voice}\nText: {text}");
+            Save(); 
         }
 
 
-        private void BrowseMusic_Click(object sender, RoutedEventArgs e)
+        private void Save()
+        {
+            if (VoiceRadio.IsChecked == true) { _config.TimerOptions.Notification = TimerNotificationOptions.Voice; }
+            else if (MusicRadio.IsChecked == true) { _config.TimerOptions.Notification = TimerNotificationOptions.Sound; }
+            else _config.TimerOptions.Notification = TimerNotificationOptions.Voice;
+            _config.TimerOptions.Comment = VoiceTextBox.Text;
+            _config.TimerOptions.Voice = VoiceComboBox.SelectedItem as string;
+            _config.TimerOptions.Filename = MusicFileTextBox.Text;
+            RunConfigManager.Save(_config);
+        }
+
+
+        private void MusicBrowse_Click(object sender, RoutedEventArgs e)
         {
             mediaPlayer.Close();
             var dlg = new OpenFileDialog
@@ -90,7 +120,7 @@ namespace TimeToy
             }
         }
 
-        private void TestMusic_Click(object sender, RoutedEventArgs e)
+        private void MusicTest_Click(object sender, RoutedEventArgs e)
         {
             
             var file = MusicFileTextBox.Text;
@@ -119,9 +149,7 @@ namespace TimeToy
         }
         private void SaveMusic_Click(object sender, RoutedEventArgs e)
         {
-            var text = VoiceTextBox.Text;
-            var voice = VoiceComboBox.SelectedItem as string;
-            MessageBox.Show($"WIP Saved music settings:\nFile: {MusicFileTextBox.Text}");
+            Save();
         }
 
     }
