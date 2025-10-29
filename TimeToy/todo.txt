@@ -6,7 +6,7 @@ In Stopwatcher
 	* DONE: Implement clear button
 	* DONE a while back!!!! StartNow Need a 'Start Now' button and need it now! also rearrange the buttons 
 	* canceled, see general->Options explore the usage of user picked computer voices 
-	*		AddOptionsd 
+	*		AddOptionsd
 
 In Timer
 	* Done: Timer Implement everything for basic timer Start and End functionality
@@ -17,8 +17,10 @@ In Timer
 	* DONE somewhere: Notification "update notification to bring window back from minimized state"
 	* DONE: NotificationTime "Add field showing the expected notification time. "	
 	* BUG:  FixTopMost "When Notify happens, screen become topmost.  Needs to top that after user touches it" 
+	*       When notification happens, make sure window is at least big enough to show all fields except the timeout
 	*       relocation timer popup if off screen 
 	*       ScreenFlash "Add screen flash option when timer ends"
+	
 
 	* Cancel, see UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
@@ -26,6 +28,19 @@ In Timer
 
 In the Alarm 
 	* implement everything
+
+Options panel: 
+	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
+	* DONE: Options2 "Part 2: Implement ability to open, use and save config file Next: Options3"
+	* DONE: Options3 "Part 3: Implement usage of config file in stopwatch and timer"*       
+	* DONE: Options3.5 "handle StopWatch options separately "
+	* DOING:      Options3.6 "ImplementUsage of options in Stopwatch and Timer "
+	*       Options3.7 "IMplement error handling if selected voice not valid."
+
+	*       Options4 "Part 4: consider when selections are invalid for that machine like voice choice or missung music file "
+	* DONE: WindowsIcon "Get a better icon for the app and windows"
+	* someday: OptionsFileMissing "Open select file in same folder as previous selection, handle missing file "
+
 
 In general
 	* DONE: fix main colors and title and icons
@@ -39,15 +54,5 @@ In general
 	*		AddVersion "Add version number somewhere "
 	*		Readme "Update readme with current features "
 	*       Themes "Implement visual volor themes, at least dark theme"
+	*       OPtionsSave "Change options to single save and cancel at bottom of screen"
 
-	Options panel: 
-	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
-	* DONE: Options2 "Part 2: Implement ability to open, use and save config file Next: Options3"
-	* DONE:      Options3 "Part 3: Implement usage of config file in stopwatch and timer"*       
-	* DOING:      Options3.5 "handle StopWatch options separately "
-	*       Options3.6 "ImplementUsage of options in Stopwatch and Timer "
-	*       Options3.7 "IMplement error handling if selected voice not valid."
-
-	*       Options4 "Part 4: consider when selections are invalid for that machine like voice choice or missung music file "
-	* DONE: WindowsIcon "Get a better icon for the app and windows"
-	* someday: OptionsFileMissing "Open select file in same folder as previous selection, handle missing file "

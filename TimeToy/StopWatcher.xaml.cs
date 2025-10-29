@@ -44,6 +44,17 @@ namespace TimeToy
             _synth.Rate = 3;
             _config = config;
 
+            _synth.SpeakCompleted += (s, e) =>
+            {
+                if (e.Error != null)
+                {
+                    MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            };
+            
+            _synth.SelectVoice(_config.StopWatcherOptions.Voice);
+            _synth.Volume = (int)_config.StopWatcherOptions.Volume;
+
         }
         protected override void OnClosed(EventArgs e)
         {

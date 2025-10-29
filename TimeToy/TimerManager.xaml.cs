@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Net.NetworkInformation;
 using System.Speech.Synthesis;
 using System.Text;
@@ -90,6 +91,9 @@ namespace TimeToy
             _originalTimeTextboxBackground = TimeTextbox.Background;
             SetOperationalState(OperationState.Zero);
             _config = config;
+
+
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -178,12 +182,49 @@ namespace TimeToy
 
         private void NotifyUserTimeIsUp()
         {
-            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-            synthesizer.SpeakAsync("Timer is up.");
+            if ( _config.TimerOptions.Notification == TimerNotificationOptions.Voice)
+            {
+                SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+                synthesizer.SpeakCompleted += (s, e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                };
+                synthesizer.SelectVoice(_config.TimerOptions.Voice);
+                synthesizer.Volume = 100;
+                synthesizer.SpeakAsync(_config.TimerOptions.Comment);
+            }
+            if (_config.TimerOptions.Notification == TimerNotificationOptions.Sound )
+            {
+                if (System.IO.Path.GetExtension(_config.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
+                {
+                    var player = new SoundPlayer(_config.TimerOptions.Filename);
+                    player.Play();
+                }
+                else
+                {
+                    MediaPlayer mediaPlayer = new MediaPlayer();
+                    mediaPlayer.MediaFailed += (s, e) =>
+                    {
+                        MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
+                    };
+                    mediaPlayer.Open(new Uri(_config.TimerOptions.Filename));
+                    mediaPlayer.Play();
+                }
+            }
+
 
             // Bring window to foreground and make it topmost
             this.Topmost = true;
             this.Activate();
+
+        }
+
+        private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void SnoozeButton_Click(object sender, RoutedEventArgs e)

@@ -178,7 +178,7 @@ namespace TimeToy
         }
         private void SaveMusic_Click(object sender, RoutedEventArgs e)
         {
-            
+            Save();
         }
         private void StopWatchSave_Click(object sender, RoutedEventArgs e)
         {
