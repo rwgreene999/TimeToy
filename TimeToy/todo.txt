@@ -52,6 +52,7 @@ In general
 	* DONE: WindowsIcon "Get a better icon for the app and windows"
 	*		AddVersion "Add version number somewhere "
 	*		Readme "Update readme with current features "
-	* DOING: Themes "Implement visual color themes, at least dark theme"
-	* next:      OPtionsSave "Change options to single save and cancel at bottom of screen"
+	* DONE: Themes "Implement visual color themes, at least dark theme"
+	*       OPtionsSave "Change options to single save and cancel at bottom of screen"
+	* DOING: SingleEXE "Added    Install-Package Costura.Fody do create DLL less single Exe for distribution "
 
