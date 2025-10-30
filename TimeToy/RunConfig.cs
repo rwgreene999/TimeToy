@@ -23,7 +23,7 @@ namespace TimeToy
     }
     public class RunConfig
     {
-        public string Theme { get; set; } = "Light"; // WIP future use 
+        public string Theme { get; set; } = "Dark"; 
         public StopWatchSettings StopWatcherOptions { get; set; } = new StopWatchSettings();
         public TimerSettings TimerOptions { get; set; } = new TimerSettings();
 

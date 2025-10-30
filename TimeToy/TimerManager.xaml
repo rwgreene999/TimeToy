@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeToy"
         mc:Ignorable="d"
-        Title="TimerManager" Height="200" Width="490">
+        Title="TimerManager" Height="200" Width="490"
+        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        >
     <Grid>
 
         <Grid>

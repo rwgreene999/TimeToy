@@ -22,10 +22,21 @@ namespace TimeToy
     public partial class MainWindow : Window
     {
         RunConfig _config; 
-        public MainWindow()
+      public MainWindow()
         {
             InitializeComponent();
-            _config = RunConfigManager.Load();
+            try
+            {
+                _config = RunConfigManager.Load();
+                ((App)Application.Current).SetTheme(_config.Theme);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading config, ex={ex.Message} Possible solution: delete json config file");
+                Application.Current.Shutdown(); // Exit the application on error
+                return;
+            }
+            
         }
 
         private void Timer_Click(object sender, RoutedEventArgs e)

@@ -5,7 +5,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:TimeToy"
       mc:Ignorable="d"      
-      Title="Time Toy" Height="250" Width="400">
+      Title="Time Toy" Height="250" Width="400"
+        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        >
    
    <Window.Resources>
        <local:FontSizerConverter x:Key="StopWatcherConverter"/>

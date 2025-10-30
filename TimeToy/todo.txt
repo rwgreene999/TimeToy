@@ -34,12 +34,11 @@ Options panel:
 	* DONE: Options2 "Part 2: Implement ability to open, use and save config file Next: Options3"
 	* DONE: Options3 "Part 3: Implement usage of config file in stopwatch and timer"*       
 	* DONE: Options3.5 "handle StopWatch options separately "
-	* DOING:      Options3.6 "ImplementUsage of options in Stopwatch and Timer "
+	* DONE: Options3.6 "ImplementUsage of options in Stopwatch and Timer "
 	*       Options3.7 "IMplement error handling if selected voice not valid."
-
 	*       Options4 "Part 4: consider when selections are invalid for that machine like voice choice or missung music file "
 	* DONE: WindowsIcon "Get a better icon for the app and windows"
-	* someday: OptionsFileMissing "Open select file in same folder as previous selection, handle missing file "
+	* future: OptionsFileMissing "Open select file in same folder as previous selection, handle missing file "
 
 
 In general
@@ -53,6 +52,6 @@ In general
 	* DONE: WindowsIcon "Get a better icon for the app and windows"
 	*		AddVersion "Add version number somewhere "
 	*		Readme "Update readme with current features "
-	*       Themes "Implement visual volor themes, at least dark theme"
-	*       OPtionsSave "Change options to single save and cancel at bottom of screen"
+	* DOING: Themes "Implement visual color themes, at least dark theme"
+	* next:      OPtionsSave "Change options to single save and cancel at bottom of screen"
 
