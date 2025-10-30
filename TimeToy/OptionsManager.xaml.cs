@@ -37,6 +37,10 @@ namespace TimeToy
             LoadedDataFromSettings();
 
             StopWatchVolumeSlider.ValueChanged += StopWatchVolumeSlider_ValueChanged;
+
+            
+            
+
         }
 
         private void StopWatchVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,6 +50,14 @@ namespace TimeToy
 
         private void LoadedDataFromSettings()
         {
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            // Get build time (last write time of the assembly)
+            var assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var buildTime = System.IO.File.GetLastWriteTime(assemblyPath);
+            var buildTimeStr = buildTime.ToString("yyyy-MM-dd HH:mm:ss");
+            RunVersion.Text = $"{version} (Built: {buildTimeStr})";
+
+            
             if ( _config.TimerOptions.Notification == TimerNotificationOptions.Voice)
             {
                 VoiceRadio.IsChecked = true;
