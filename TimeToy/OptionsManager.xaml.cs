@@ -12,7 +12,7 @@ namespace TimeToy
     public partial class OptionsManager : Window
     {
         double _StopWatchVolume = 100.0; 
-        RunConfig _config; 
+        RunConfig _config;
         private MediaPlayer mediaPlayer = new MediaPlayer();
         public OptionsManager(RunConfig config )
         {
@@ -61,6 +61,14 @@ namespace TimeToy
             StopWatchComboBox.SelectedItem = _config.StopWatcherOptions.Voice;
             _StopWatchVolume = _config.StopWatcherOptions.Volume;
             StopWatchVolumeSlider.Value = _StopWatchVolume;
+
+            if ( _config.Theme == "Dark")
+            {
+                ThemeDark.IsChecked = true; 
+            } else
+            {
+                ThemeLight.IsChecked = true;
+            }
 
         }
 
@@ -115,13 +123,7 @@ namespace TimeToy
             }
         }
 
-        private void VoiceSave_Click(object sender, RoutedEventArgs e)
-        {
-            Save(); 
-        }
-
-
-        private void Save()
+        private void Keep()
         {
             if (VoiceRadio.IsChecked == true) { _config.TimerOptions.Notification = TimerNotificationOptions.Voice; }
             else if (MusicRadio.IsChecked == true) { _config.TimerOptions.Notification = TimerNotificationOptions.Sound; }
@@ -131,8 +133,13 @@ namespace TimeToy
             _config.TimerOptions.Filename = MusicFileTextBox.Text;
 
             _config.StopWatcherOptions.Voice = StopWatchComboBox.SelectedItem as string;
-            _config.StopWatcherOptions.Volume = _StopWatchVolume; 
-            
+            _config.StopWatcherOptions.Volume = _StopWatchVolume;
+
+        }
+
+        private void Save()
+        {
+            Keep(); 
             RunConfigManager.Save(_config);
         }
 
@@ -177,14 +184,6 @@ namespace TimeToy
                 }
             }
         }
-        private void SaveMusic_Click(object sender, RoutedEventArgs e)
-        {
-            Save();
-        }
-        private void StopWatchSave_Click(object sender, RoutedEventArgs e)
-        {
-            Save();
-        }
 
         private void ThemeDark_Checked(object sender, RoutedEventArgs e)
         {
@@ -196,6 +195,25 @@ namespace TimeToy
         {
             _config.Theme = "Light"; 
             ((App)Application.Current).SetTheme("Light");
+        }
+
+        private void SaveAll_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+            Close();
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            _config = RunConfigManager.Load();
+            LoadedDataFromSettings();
+            Close();
+        }
+
+        private void Keep_Click(object sender, RoutedEventArgs e)
+        {
+            Keep();
+            Close(); 
         }
     }
 }
