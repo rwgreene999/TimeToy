@@ -132,6 +132,7 @@ namespace TimeToy
 
             _config.StopWatcherOptions.Voice = StopWatchComboBox.SelectedItem as string;
             _config.StopWatcherOptions.Volume = _StopWatchVolume; 
+            
             RunConfigManager.Save(_config);
         }
 
@@ -185,5 +186,16 @@ namespace TimeToy
             Save();
         }
 
+        private void ThemeDark_Checked(object sender, RoutedEventArgs e)
+        {
+            _config.Theme = "Dark";
+            ((App)Application.Current).SetTheme("Dark");
+        }
+
+        private void ThemeLight_Checked(object sender, RoutedEventArgs e)
+        {
+            _config.Theme = "Light"; 
+            ((App)Application.Current).SetTheme("Light");
+        }
     }
 }
