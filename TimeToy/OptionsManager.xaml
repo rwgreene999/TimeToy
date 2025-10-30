@@ -14,8 +14,14 @@
                 <GradientStop Color="#7FF3AA21" Offset="5"/>
             </LinearGradientBrush>
         </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Margin="20" VerticalAlignment="Top">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0" Grid.Row="0">
+        
+        <StackPanel Margin="20" VerticalAlignment="Top" >
 
             <StackPanel >
                 <!-- Main TextBox -->
@@ -105,7 +111,7 @@
                          Keep: Keep changes in app until app is closed."
                         </TextBlock>
                     </StackPanel.ToolTip>
-                    
+
                     <TextBlock Text="Change Option" FontWeight="Bold"/>
                     <StackPanel Margin="20,5,0,4" Orientation="Horizontal">
                         <Button Content="Save" Width="100" Click="SaveAll_Click"/>
@@ -114,7 +120,8 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-
         </StackPanel>
+        </ScrollViewer>
+        <TextBlock x:Name="RunVersion" Text="version" FontWeight="Bold" Grid.Row="1" FontSize="8" Margin="20,0,0,0"/>
     </Grid>
 </Window>

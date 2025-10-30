@@ -22,7 +22,13 @@ namespace TimeToy
     public partial class MainWindow : Window
     {
         RunConfig _config; 
-      public MainWindow()
+      // Pseudocode:
+        // 1. Get the path to the current assembly.
+        // 2. Use System.IO.File.GetLastWriteTime to get the last write time (as a proxy for build time).
+        // 3. Format the build time as a string.
+        // 4. Append or display the build time with the version in RunVersion.Text.
+
+        public MainWindow()
         {
             InitializeComponent();
             try
@@ -36,7 +42,14 @@ namespace TimeToy
                 Application.Current.Shutdown(); // Exit the application on error
                 return;
             }
-            
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            // Get build time (last write time of the assembly)
+            var assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var buildTime = System.IO.File.GetLastWriteTime(assemblyPath);
+            var buildTimeStr = buildTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            RunVersion.Text = $"{version} (Built: {buildTimeStr})";
         }
 
         private void Timer_Click(object sender, RoutedEventArgs e)
