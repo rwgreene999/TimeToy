@@ -203,7 +203,19 @@ namespace TimeToy
                         MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 };
-                synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
+
+                try
+                {
+                    // sometimes voices change on a machine or json from one machine moves to another 
+                    if (_configManager.runConfig.TimerOptions.Voice != null && _configManager.runConfig.TimerOptions.Voice != String.Empty)
+                    {
+                        synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
+                    }
+                }
+                catch (Exception)
+                {
+                    // use default voice 
+                }                
                 synthesizer.Volume = 100;
                 synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
             }
