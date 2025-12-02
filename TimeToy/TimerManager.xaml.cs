@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static TimeToy.RunConfigManager;
 
 namespace TimeToy
 {
@@ -81,19 +82,28 @@ namespace TimeToy
 
         OperationState _currentOperationState = OperationState.Zero;
 
-
-        private RunConfig _config; 
-        public TimerManager(RunConfig config)
+        RunConfigManager _configManager; 
+        public TimerManager(RunConfigManager config)
         {
             InitializeComponent();
             _time = TimeSpan.Zero;
             DataContext = this;
             _originalTimeTextboxBackground = TimeTextbox.Background;
             SetOperationalState(OperationState.Zero);
-            _config = config;
+            _configManager = config;
 
+            WindowSettingsManager.ApplyToWindow(this, _configManager.runConfig.TimerOptions.windowSettings);
+            // Subscribe to move/size/state events
+            LocationChanged += (s, e) => { CaptureWindowsLocation(); };
+            SizeChanged += (s, e) => { CaptureWindowsLocation(); };
+            StateChanged += (s, e) => { CaptureWindowsLocation(); };
+            Closing += (s, e) => { CaptureWindowsLocation(); };
+        }
 
-
+        private void CaptureWindowsLocation()
+        {
+            WindowSettingsManager.CaptureFromWindow(this, _configManager.runConfig.TimerOptions.windowSettings);
+            _configManager.Save();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -182,7 +192,8 @@ namespace TimeToy
 
         private void NotifyUserTimeIsUp()
         {
-            if ( _config.TimerOptions.Notification == TimerNotificationOptions.Voice)
+
+            if ( _configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
             {
                 SpeechSynthesizer synthesizer = new SpeechSynthesizer();
                 synthesizer.SpeakCompleted += (s, e) =>
@@ -192,15 +203,15 @@ namespace TimeToy
                         MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 };
-                synthesizer.SelectVoice(_config.TimerOptions.Voice);
+                synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
                 synthesizer.Volume = 100;
-                synthesizer.SpeakAsync(_config.TimerOptions.Comment);
+                synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
             }
-            if (_config.TimerOptions.Notification == TimerNotificationOptions.Sound )
+            if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Sound )
             {
-                if (System.IO.Path.GetExtension(_config.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
+                if (System.IO.Path.GetExtension(_configManager.runConfig.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
                 {
-                    var player = new SoundPlayer(_config.TimerOptions.Filename);
+                    var player = new SoundPlayer(_configManager.runConfig.TimerOptions.Filename);
                     player.Play();
                 }
                 else
@@ -210,7 +221,7 @@ namespace TimeToy
                     {
                         MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
                     };
-                    mediaPlayer.Open(new Uri(_config.TimerOptions.Filename));
+                    mediaPlayer.Open(new Uri(_configManager.runConfig.TimerOptions.Filename));
                     mediaPlayer.Play();
                 }
             }

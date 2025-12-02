@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="RunConfig.cs" />
     <Compile Include="RunConfigManager.cs" />
     <Compile Include="StopWatcher.xaml.cs">
       <DependentUpon>StopWatcher.xaml</DependentUpon>
@@ -80,6 +79,7 @@
     <Compile Include="OptionsManager.xaml.cs">
       <DependentUpon>OptionsManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowSettingsManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
