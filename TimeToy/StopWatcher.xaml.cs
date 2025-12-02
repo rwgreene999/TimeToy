@@ -36,13 +36,13 @@ namespace TimeToy
         private bool _isTimerRunning;
         private bool _showTimer;
         private SpeechSynthesizer _synth = new SpeechSynthesizer();
-        RunConfig _config; 
-        public StopWatcher(RunConfig config)
+        private RunConfigManager _configManager;
+        public StopWatcher(RunConfigManager config)
         {
             InitializeComponent();
             PrepareForStopwatchAction();
             _synth.Rate = 3;
-            _config = config;
+            _configManager = config;
 
             _synth.SpeakCompleted += (s, e) =>
             {
@@ -51,11 +51,31 @@ namespace TimeToy
                     MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             };
-            
-            _synth.SelectVoice(_config.StopWatcherOptions.Voice);
-            _synth.Volume = (int)_config.StopWatcherOptions.Volume;
 
+            if (_configManager.runConfig.StopWatcherOptions.Voice == null || _configManager.runConfig.StopWatcherOptions.Voice == string.Empty)
+            {
+                
+            } else
+            {
+                _synth.SelectVoice(_configManager.runConfig.StopWatcherOptions.Voice);
+            }
+                
+            _synth.Volume = (int)_configManager.runConfig.StopWatcherOptions.Volume;
+
+            WindowSettingsManager.ApplyToWindow(this, _configManager.runConfig.StopWatcherOptions.windowSettings);
+
+            // Subscribe to move/size/state events
+            LocationChanged += (s, e) => { CaptureWindowsLocation(); };
+            SizeChanged += (s, e) => { CaptureWindowsLocation(); };
+            StateChanged += (s, e) => { CaptureWindowsLocation(); };
+            Closing += (s, e) => { CaptureWindowsLocation(); };
         }
+        private void CaptureWindowsLocation()
+        {
+            WindowSettingsManager.CaptureFromWindow(this, _configManager.runConfig.StopWatcherOptions.windowSettings);
+            _configManager.Save();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);

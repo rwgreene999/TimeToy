@@ -13,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.ComponentModel;
+using Microsoft.Win32;
 
 namespace TimeToy
 {
@@ -21,20 +24,16 @@ namespace TimeToy
     /// </summary>
     public partial class MainWindow : Window
     {
-        RunConfig _config; 
-      // Pseudocode:
-        // 1. Get the path to the current assembly.
-        // 2. Use System.IO.File.GetLastWriteTime to get the last write time (as a proxy for build time).
-        // 3. Format the build time as a string.
-        // 4. Append or display the build time with the version in RunVersion.Text.
+        private RunConfigManager _configManager; 
 
         public MainWindow()
         {
             InitializeComponent();
             try
             {
-                _config = RunConfigManager.Load();
-                ((App)Application.Current).SetTheme(_config.Theme);
+                _configManager = new RunConfigManager();
+                _configManager.Load();
+                ((App)Application.Current).SetTheme(_configManager.runConfig.Theme);
             }
             catch (Exception ex)
             {
@@ -50,17 +49,35 @@ namespace TimeToy
             var buildTimeStr = buildTime.ToString("yyyy-MM-dd HH:mm:ss");
 
             RunVersion.Text = $"{version} (Built: {buildTimeStr})";
+
+            // Apply saved window settings
+            WindowSettingsManager.ApplyToWindow(this, _configManager.runConfig.windowSettings);
+            CaptureWindowsLocation(); 
+
+
+            // Subscribe to move/size/state events
+            LocationChanged += (s, e) => { CaptureWindowsLocation();  };
+            SizeChanged += (s, e) => { CaptureWindowsLocation(); };
+            StateChanged += (s, e) => { CaptureWindowsLocation(); };
+            Closing += (s, e) => { _configManager.SaveNow();  };
         }
+
+        private void CaptureWindowsLocation()
+        {
+            WindowSettingsManager.CaptureFromWindow(this, _configManager.runConfig.windowSettings);
+            _configManager.Save();
+        }
+
 
         private void Timer_Click(object sender, RoutedEventArgs e)
         {
-            var timerManager = new TimerManager(_config);
+            var timerManager = new TimerManager(_configManager);
             timerManager.Show();
         }
 
         private void StopWatch_Click(object sender, RoutedEventArgs e)
         {
-            var stopWatcherManager = new StopWatcher(_config);
+            var stopWatcherManager = new StopWatcher(_configManager);
             stopWatcherManager.Show();
 
         }
@@ -78,7 +95,7 @@ namespace TimeToy
             {
                 this.DragMove();
             }
-            
+
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -88,7 +105,7 @@ namespace TimeToy
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            var OptionsManager = new OptionsManager(_config);
+            var OptionsManager = new OptionsManager(_configManager);
             OptionsManager.ShowDialog();
 
         }

@@ -114,9 +114,9 @@
 
                     <TextBlock Text="Change Option" FontWeight="Bold"/>
                     <StackPanel Margin="20,5,0,4" Orientation="Horizontal">
-                        <Button Content="Save" Width="100" Click="SaveAll_Click"/>
-                        <Button Content="Cancel" Width="100" Click="Cancel_Click"/>
-                        <Button Content="Keep" Width="100" Click="Keep_Click"/>
+                        <Button Content="Save" Width="100" Click="SaveAll_Click"  ToolTip="Save changes and exit"/>
+                        <Button Content="Cancel" Width="100" Click="Cancel_Click" ToolTip="Cancel changes and exit"/>
+                        <Button Content="Keep" Width="100" Click="Keep_Click" ToolTip="Keep changes this run, but dont save them."/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
