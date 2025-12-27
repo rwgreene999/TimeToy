@@ -160,7 +160,7 @@ namespace TimeToy
             }
         }
 
-        private void Keep()
+        private void UpdateConfigWithCurrentSelection()
         {
             if (VoiceRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = RunConfigManager.TimerNotificationOptions.Voice; }
             else if (MusicRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = RunConfigManager.TimerNotificationOptions.Sound; }
@@ -175,8 +175,9 @@ namespace TimeToy
 
         private void Save()
         {
-            Keep();
-            _configManager.Save();  // this updates the file 
+            
+            UpdateConfigWithCurrentSelection();
+            _configManager.SaveNow();  // this updates the file 
             _originalConfigManager.Load(); // reload new changes for rest of system            
         }
 
@@ -251,7 +252,7 @@ namespace TimeToy
 
         private void Keep_Click(object sender, RoutedEventArgs e)
         {
-            Keep();
+            UpdateConfigWithCurrentSelection();
             Close();
         }
 
