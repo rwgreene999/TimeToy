@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -179,12 +180,21 @@ namespace TimeToy
                     }
                     else
                     {
-                        _time = TimeSpan.Zero;
-                        OnPropertyChanged(nameof(TimeString));
-                        _dispatcherTimer.Stop();
-                        ExpectedExpireTime = DateTime.MinValue;
-                        NotifyUserTimeIsUp();
-                        SetOperationalState(OperationState.Ended);
+                        try
+                        {
+                            OnPropertyChanged(nameof(TimeString));
+                            _dispatcherTimer.Stop();
+                            ExpectedExpireTime = DateTime.MinValue;
+                            NotifyUserTimeIsUp();
+                            SetOperationalState(OperationState.Ended);
+                            _time = TimeSpan.Zero;
+                        }
+                        catch (Exception ex )
+                        {
+                            MessageBox.Show( $"end crash {ex.Message}\nfull error{ex.ToString()}\n{ex.InnerException?.Message} " ); 
+                        }
+                        
+
                     }
                 }
             }
@@ -192,56 +202,63 @@ namespace TimeToy
 
         private void NotifyUserTimeIsUp()
         {
-
-            if ( _configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
+            try
             {
-                SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-                synthesizer.SpeakCompleted += (s, e) =>
+                if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
                 {
-                    if (e.Error != null)
+                    SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+                    synthesizer.SpeakCompleted += (s, e) =>
                     {
-                        MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                };
-
-                try
-                {
-                    // sometimes voices change on a machine or json from one machine moves to another 
-                    if (_configManager.runConfig.TimerOptions.Voice != null && _configManager.runConfig.TimerOptions.Voice != String.Empty)
-                    {
-                        synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
-                    }
-                }
-                catch (Exception)
-                {
-                    // use default voice 
-                }                
-                synthesizer.Volume = 100;
-                synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
-            }
-            if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Sound )
-            {
-                if (System.IO.Path.GetExtension(_configManager.runConfig.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
-                {
-                    var player = new SoundPlayer(_configManager.runConfig.TimerOptions.Filename);
-                    player.Play();
-                }
-                else
-                {
-                    MediaPlayer mediaPlayer = new MediaPlayer();
-                    mediaPlayer.MediaFailed += (s, e) =>
-                    {
-                        MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
+                        if (e.Error != null)
+                        {
+                            MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     };
-                    mediaPlayer.Open(new Uri(_configManager.runConfig.TimerOptions.Filename));
-                    mediaPlayer.Play();
+
+                    try
+                    {
+                        // sometimes voices change on a machine or json from one machine moves to another 
+                        if (_configManager.runConfig.TimerOptions.Voice != null && _configManager.runConfig.TimerOptions.Voice != String.Empty)
+                        {
+                            synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // use default voice 
+                    }
+                    synthesizer.Volume = 100;
+                    synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
                 }
+                if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Sound)
+                {
+                    if (System.IO.Path.GetExtension(_configManager.runConfig.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var player = new SoundPlayer(_configManager.runConfig.TimerOptions.Filename);
+                        player.Play();
+                    }
+                    else
+                    {
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        mediaPlayer.MediaFailed += (s, e) =>
+                        {
+                            MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
+                        };
+                        mediaPlayer.Open(new Uri(_configManager.runConfig.TimerOptions.Filename));
+                        mediaPlayer.Play();
+                    }
+                }
+
+
+                // Bring window to foreground and make it topmost
+                this.Topmost = true;
+                this.Activate();
+
             }
-
-
-            // Bring window to foreground and make it topmost
-            this.Topmost = true;
-            this.Activate();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"end crash {ex.Message}\nfull error{ex.ToString()}\n{ex.InnerException?.Message} ");
+            }
 
         }
 

@@ -60,5 +60,7 @@ In general
 	* DONE: OptionsSave "Change options to single save and cancel at bottom of screen"
 	* DONE: SingleEXE "Added    Install-Package Costura.Fody do create DLL less single Exe for distribution "
 	* DONE: WindowSave "Implement saving window size and location per window"
-	* BUG: Bug-SpeechSynthesizer "Handle error when user's selected voice is not valid on that machine"
+	* DONE: Bug-SpeechSynthesizer "Handle error when user's selected voice is not valid on that machine"
+	* BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
+	* BUG: SaveAndCrash "Fix issue where app crashes and saving config file sometimes"
 
