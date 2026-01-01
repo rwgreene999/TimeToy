@@ -191,7 +191,7 @@ namespace TimeToy
                         }
                         catch (Exception ex )
                         {
-                            MessageBox.Show( $"end crash {ex.Message}\nfull error{ex.ToString()}\n{ex.InnerException?.Message} " ); 
+                            ErrorLogging.Log(ex, "Error during timer tick expiration handling.");                            
                         }
                         
 
@@ -211,7 +211,7 @@ namespace TimeToy
                     {
                         if (e.Error != null)
                         {
-                            MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            ErrorLogging.Log(e.Error, "Speech synthesis creation error.");
                         }
                     };
 
@@ -223,9 +223,9 @@ namespace TimeToy
                             synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // use default voice 
+                        ErrorLogging.Log(ex, "Speech synthesis voice selection error, using default voice.");
                     }
                     synthesizer.Volume = 100;
                     synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
@@ -242,7 +242,7 @@ namespace TimeToy
                         MediaPlayer mediaPlayer = new MediaPlayer();
                         mediaPlayer.MediaFailed += (s, e) =>
                         {
-                            MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
+                            ErrorLogging.Log(e.ErrorException, "Media playback creation failed ");
                         };
                         mediaPlayer.Open(new Uri(_configManager.runConfig.TimerOptions.Filename));
                         mediaPlayer.Play();
@@ -257,14 +257,14 @@ namespace TimeToy
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"end crash {ex.Message}\nfull error{ex.ToString()}\n{ex.InnerException?.Message} ");
+                ErrorLogging.Log(ex, "Error during notification playback.");
             }
 
         }
 
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            ErrorLogging.Log(e.ErrorException, "Media playback failed.");
         }
 
         private void SnoozeButton_Click(object sender, RoutedEventArgs e)

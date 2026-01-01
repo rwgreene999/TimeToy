@@ -48,7 +48,7 @@ namespace TimeToy
             {
                 if (e.Error != null)
                 {
-                    MessageBox.Show($"Speech error: {e.Error.Message}", "Speech Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ErrorLogging.Log( e.Error, "Error during speech synthesis.");
                 }
             };
 

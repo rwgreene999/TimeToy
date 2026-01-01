@@ -116,7 +116,8 @@ namespace TimeToy
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
-            throw new NotImplementedException();
+            var ex = e?.ErrorException ?? new Exception("Unknown media error");
+            ErrorLogging.Log(ex, $"Media Player failed {e.ErrorException}");
         }
 
         private void Radio_Checked2(object sender, RoutedEventArgs e)
@@ -215,9 +216,9 @@ namespace TimeToy
                         mediaPlayer.Play();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to play the selected file.");
+                    ErrorLogging.Log(ex, "Error playing music file");
                 }
             }
         }
@@ -306,7 +307,10 @@ namespace TimeToy
             {
                 timer.Stop();
                 // Close without setting DialogResult => treated as "Don't Save"
-                try { dialog.Close(); } catch { }
+                try { dialog.Close(); } catch (Exception ex ) 
+                { 
+                    ErrorLogging.Log(ex, "Error closing save prompt dialog on timeout");
+                }
             };
             timer.Start();
 

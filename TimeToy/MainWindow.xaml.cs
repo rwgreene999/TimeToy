@@ -38,6 +38,7 @@ namespace TimeToy
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading config, ex={ex.Message} Possible solution: delete json config file");
+                ErrorLogging.Log(ex, "Error loading RunConfigManager in MainWindow constructor.");
                 Application.Current.Shutdown(); // Exit the application on error
                 return;
             }
