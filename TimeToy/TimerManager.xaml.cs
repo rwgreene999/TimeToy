@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Media;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static TimeToy.RunConfigManager;
 
+
+
 namespace TimeToy
 {
+
+    
+
     /// <summary>
     /// Interaction logic for TimerManager.xaml
     /// </summary>
@@ -69,7 +75,7 @@ namespace TimeToy
 
 
         private System.Windows.Threading.DispatcherTimer _dispatcherTimer;
-        TimeSpan _snoozedTimeRemaining; 
+        TimeSpan _snoozedTimeRemaining;
 
 
         private enum OperationState
@@ -83,7 +89,7 @@ namespace TimeToy
 
         OperationState _currentOperationState = OperationState.Zero;
 
-        RunConfigManager _configManager; 
+        RunConfigManager _configManager;
         public TimerManager(RunConfigManager config)
         {
             InitializeComponent();
@@ -125,7 +131,7 @@ namespace TimeToy
 
 
         private void Add10Minutes_Click(object sender, RoutedEventArgs e)
-        {         
+        {
             AddTimeToTimer(TimeSpan.FromMinutes(10));
         }
 
@@ -151,7 +157,7 @@ namespace TimeToy
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {
-            _originalSelectedNotification = _time; 
+            _originalSelectedNotification = _time;
             if (_time.TotalSeconds <= 0)
                 return;
 
@@ -168,7 +174,7 @@ namespace TimeToy
         }
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (_currentOperationState != OperationState.Snoozed )
+            if (_currentOperationState != OperationState.Snoozed)
             {
                 if (ExpectedExpireTime != DateTime.MinValue)
                 {
@@ -189,11 +195,11 @@ namespace TimeToy
                             SetOperationalState(OperationState.Ended);
                             _time = TimeSpan.Zero;
                         }
-                        catch (Exception ex )
+                        catch (Exception ex)
                         {
-                            ErrorLogging.Log(ex, "Error during timer tick expiration handling.");                            
+                            ErrorLogging.Log(ex, "Error during timer tick expiration handling.");
                         }
-                        
+
 
                     }
                 }
@@ -253,6 +259,13 @@ namespace TimeToy
                 // Bring window to foreground and make it topmost
                 this.Topmost = true;
                 this.Activate();
+                NativeMethods.ForceForegroundWindow(this);
+                // wip consider this: 
+                // Ensure window receives keyboard input
+                //this.Focus();
+                //Keyboard.Focus(this);
+                WatchForAnyKey(); 
+
 
             }
             catch (Exception ex)
@@ -261,6 +274,42 @@ namespace TimeToy
             }
 
         }
+
+
+        private KeyEventHandler _oneTimeKeyHandler;
+        private void WatchForAnyKey()
+        {
+            if (_oneTimeKeyHandler != null)
+            {
+                try { this.KeyDown -= _oneTimeKeyHandler; } catch 
+                { 
+                    ErrorLogging.Log("Error unsubscribing previous one-time key handler, continue processing");
+                }
+            }
+
+            _oneTimeKeyHandler = null; 
+            _oneTimeKeyHandler = (s, e) =>
+            {
+                try
+                {
+                    // Remove topmost / native forcing
+                    this.Topmost = false;
+                    NativeMethods.UnforceForegroundWindow(this);
+                }
+                catch (Exception ex)
+                {
+                    ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call.");
+                }
+                finally
+                {
+                    // Unsubscribe and clear the stored reference so this is one-shot
+                    try { this.KeyDown -= _oneTimeKeyHandler; } catch { }
+                    _oneTimeKeyHandler = null;
+                }
+            };
+            this.KeyDown += _oneTimeKeyHandler;
+        }
+
 
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
@@ -274,10 +323,10 @@ namespace TimeToy
                 ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
                 SetOperationalState(OperationState.Going);
                 SnoozeButton.Content = "Snooze";
-                
+
             }
             else
-            {  
+            {
                 SetOperationalState(OperationState.Snoozed);
                 _snoozedTimeRemaining = ExpectedExpireTime - DateTime.Now;
                 SnoozeButton.Content = "Resume";
@@ -291,15 +340,15 @@ namespace TimeToy
             // Remove topmost when user presses End
             this.Topmost = false;
             _dispatcherTimer?.Stop();
-            _time = TimeSpan.Zero; 
+            _time = TimeSpan.Zero;
             OnPropertyChanged(nameof(TimeString));
             if (_currentOperationState == OperationState.Snoozed)
             {
                 ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
-                SetOperationalState(OperationState.Ended); 
+                SetOperationalState(OperationState.Ended);
                 SnoozeButton.Content = "Snooze";
             }
-            SetOperationalState( OperationState.Ended);
+            SetOperationalState(OperationState.Ended);
         }
 
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
@@ -332,7 +381,7 @@ namespace TimeToy
                     {
                         _time = new TimeSpan(0, 0, seconds1);
                         OnPropertyChanged(nameof(TimeString));
-                        textBox.Background = _originalTimeTextboxBackground; 
+                        textBox.Background = _originalTimeTextboxBackground;
                     }
                     else
                     {
@@ -394,7 +443,7 @@ namespace TimeToy
                     GoButton.IsEnabled = false;
                     EndButton.IsEnabled = false;
                     SnoozeButton.IsEnabled = false;
-                    RepeatButton.IsEnabled = false; 
+                    RepeatButton.IsEnabled = false;
                     break;
                 case OperationState.Ready:
                     GoButton.IsEnabled = true;
@@ -424,4 +473,5 @@ namespace TimeToy
         }
 
     }
+
 }
