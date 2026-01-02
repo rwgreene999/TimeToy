@@ -61,9 +61,9 @@ In general
 	* DONE: SingleEXE "Added    Install-Package Costura.Fody do create DLL less single Exe for distribution "
 	* DONE: WindowSave "Implement saving window size and location per window"
 	* DONE: Bug-SpeechSynthesizer "Handle error when user's selected voice is not valid on that machine"
-	* BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
+	* WIP --->: BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
 	* BUG: SaveAndCrash "Fix issue where app crashes and saving config file sometimes"
 	* TODO: Darker "Make dark color darker!"
-	* BUG:  Playing music then windows does not have music available (like bluetooth disconnected), causes a crash
-	* >>> WIP: Logging "Implement logging for errors and important actions"
+	* DONE with logging BUG:  Playing music then windows does not have music available (like bluetooth disconnected), causes a crash
+	* Done: Logging "Implement logging for errors and important actions"
 
