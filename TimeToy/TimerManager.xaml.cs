@@ -210,6 +210,9 @@ namespace TimeToy
         {
             try
             {
+                FullScreenNotification fs = new FullScreenNotification();
+                fs.Show();                 
+
                 if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
                 {
                     SpeechSynthesizer synthesizer = new SpeechSynthesizer();
