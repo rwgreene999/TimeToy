@@ -32,6 +32,12 @@ namespace TimeToy
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         internal static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         internal static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2); // added constant
         internal const int SW_RESTORE = 9;
@@ -39,6 +45,10 @@ namespace TimeToy
         internal const uint SWP_NOMOVE = 0x0002;
         internal const uint SWP_NOSIZE = 0x0001;
         internal const uint SWP_SHOWWINDOW = 0x0040;
+        internal const int GWL_EXSTYLE = -20;
+        internal const int WS_EX_TRANSPARENT = 0x20;
+        internal const int WS_EX_LAYERED = 0x80000;
+
 
         // Force the specified window handle to the foreground. Safe, static helper.
         public static void ForceForegroundWindow(IntPtr hWnd)

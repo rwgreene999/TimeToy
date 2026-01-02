@@ -19,7 +19,8 @@ In Timer
 	* DONE: Fixed by branch: AlwaysOnTop, BUG:  FixTopMost "When Notify happens, screen become topmost.  Needs to top that after user touches it" 
 	*       When notification happens, make sure window is at least big enough to show all fields except the timeout
 	*       relocation timer popup if off screen (If they change windows between start and end of timer)
-	*       ScreenFlash "Add screen flash option when timer ends"
+	* WIP: -->       ScreenFlash "Add screen flash option when timer ends"
+	*		AddScreenFlashOption "Update options window to let user choose"
 	*       KillSound "If user closes notification, kill sound" << Use new WatchForAnyKey() function
 	* DONE: SnoozeRename "Change the Snooze button to Pause"
 
