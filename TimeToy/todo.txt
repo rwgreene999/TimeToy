@@ -16,16 +16,16 @@ In Timer
 	* DONE: RefactorState "need to refactor SetButtonState and SnoozeButton to single state" 
 	* DONE somewhere: Notification "update notification to bring window back from minimized state"
 	* DONE: NotificationTime "Add field showing the expected notification time. "	
-	* BUG:  FixTopMost "When Notify happens, screen become topmost.  Needs to top that after user touches it" 
+	* DONE: Fixed by branch: AlwaysOnTop, BUG:  FixTopMost "When Notify happens, screen become topmost.  Needs to top that after user touches it" 
 	*       When notification happens, make sure window is at least big enough to show all fields except the timeout
-	*       relocation timer popup if off screen 
+	*       relocation timer popup if off screen (If they change windows between start and end of timer)
 	*       ScreenFlash "Add screen flash option when timer ends"
-	*       KillSound "If user closes notification, kill sound"
-	*       SnoozeRename "Change the Snooze button to Pause"
-	
+	*       KillSound "If user closes notification, kill sound" << Use new WatchForAnyKey() function
+	* DONE: SnoozeRename "Change the Snooze button to Pause"
 
 	* Cancel, see UserNotification "Add option for user selected  sound when timer ends"
 	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
+	
 
 
 In the Alarm 
@@ -61,9 +61,10 @@ In general
 	* DONE: SingleEXE "Added    Install-Package Costura.Fody do create DLL less single Exe for distribution "
 	* DONE: WindowSave "Implement saving window size and location per window"
 	* DONE: Bug-SpeechSynthesizer "Handle error when user's selected voice is not valid on that machine"
-	* WIP --->: BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
+	* DONE: BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
 	* BUG: SaveAndCrash "Fix issue where app crashes and saving config file sometimes"
 	* TODO: Darker "Make dark color darker!"
 	* DONE with logging BUG:  Playing music then windows does not have music available (like bluetooth disconnected), causes a crash
 	* Done: Logging "Implement logging for errors and important actions"
+	
 

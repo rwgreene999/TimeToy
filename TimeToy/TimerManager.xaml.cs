@@ -83,7 +83,7 @@ namespace TimeToy
             Zero,
             Ready,
             Going,
-            Snoozed,
+            Paused,
             Ended
         }
 
@@ -174,7 +174,7 @@ namespace TimeToy
         }
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (_currentOperationState != OperationState.Snoozed)
+            if (_currentOperationState != OperationState.Paused)
             {
                 if (ExpectedExpireTime != DateTime.MinValue)
                 {
@@ -316,20 +316,20 @@ namespace TimeToy
             ErrorLogging.Log(e.ErrorException, "Media playback failed.");
         }
 
-        private void SnoozeButton_Click(object sender, RoutedEventArgs e)
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentOperationState == OperationState.Snoozed)
+            if (_currentOperationState == OperationState.Paused)
             {
                 ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
                 SetOperationalState(OperationState.Going);
-                SnoozeButton.Content = "Snooze";
+                PauseButton.Content = "Pause";
 
             }
             else
             {
-                SetOperationalState(OperationState.Snoozed);
+                SetOperationalState(OperationState.Paused);
                 _snoozedTimeRemaining = ExpectedExpireTime - DateTime.Now;
-                SnoozeButton.Content = "Resume";
+                PauseButton.Content = "Resume";
                 TimeNotificationTextbox.Text = String.Empty;
             }
 
@@ -342,11 +342,11 @@ namespace TimeToy
             _dispatcherTimer?.Stop();
             _time = TimeSpan.Zero;
             OnPropertyChanged(nameof(TimeString));
-            if (_currentOperationState == OperationState.Snoozed)
+            if (_currentOperationState == OperationState.Paused)
             {
                 ExpectedExpireTime = DateTime.Now.Add(_snoozedTimeRemaining);
                 SetOperationalState(OperationState.Ended);
-                SnoozeButton.Content = "Snooze";
+                PauseButton.Content = "Pause";
             }
             SetOperationalState(OperationState.Ended);
         }
@@ -442,31 +442,31 @@ namespace TimeToy
                 case OperationState.Zero:
                     GoButton.IsEnabled = false;
                     EndButton.IsEnabled = false;
-                    SnoozeButton.IsEnabled = false;
+                    PauseButton.IsEnabled = false;
                     RepeatButton.IsEnabled = false;
                     break;
                 case OperationState.Ready:
                     GoButton.IsEnabled = true;
                     EndButton.IsEnabled = false;
-                    SnoozeButton.IsEnabled = false;
+                    PauseButton.IsEnabled = false;
                     RepeatButton.IsEnabled = false;
                     break;
                 case OperationState.Going:
                     GoButton.IsEnabled = false;
                     EndButton.IsEnabled = true;
-                    SnoozeButton.IsEnabled = true;
+                    PauseButton.IsEnabled = true;
                     RepeatButton.IsEnabled = false;
                     break;
-                case OperationState.Snoozed:
+                case OperationState.Paused:
                     GoButton.IsEnabled = false;
                     EndButton.IsEnabled = true;
-                    SnoozeButton.IsEnabled = true;
+                    PauseButton.IsEnabled = true;
                     RepeatButton.IsEnabled = false;
                     break;
                 case OperationState.Ended:
                     GoButton.IsEnabled = false;
                     EndButton.IsEnabled = false;
-                    SnoozeButton.IsEnabled = false;
+                    PauseButton.IsEnabled = false;
                     RepeatButton.IsEnabled = true;
                     break;
             }
