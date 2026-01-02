@@ -68,7 +68,7 @@
             <!-- Row 3: Action Buttons -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,10,10,0">
                 <Button x:Name="GoButton" Content="Go" Width="80" Margin="0,0,5,0" Click="GoButton_Click"/>
-                <Button x:Name="SnoozeButton" Content="Snooze" Width="80" Margin="0,0,5,0" Click="SnoozeButton_Click"/>
+                <Button x:Name="PauseButton" Content="Pause" Width="80" Margin="0,0,5,0" Click="PauseButton_Click"/>
                 <Button x:Name="RepeatButton" Content="Repeat" Width="80" Margin="0,0,5,0" Click="RepeatButton_Click"/>
                 <Button x:Name="EndButton" Content="End" Width="80" Click="EndButton_Click"/>
             </StackPanel>
