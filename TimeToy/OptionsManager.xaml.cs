@@ -44,7 +44,7 @@ namespace TimeToy
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
 
             // Populate theme list (single source of theme names)
-            var themes = new[] { "Dark", "Light", "Forest", "Southwest", "Tropical", "Purple", "Volcano", "Glacier", "Sunset" };
+            var themes = new[] { "Dark", "Light", "Forest", "Southwest", "Tropical", "Purple", "Volcano", "Glacier", "Sunset", "Spring" };
             ThemeComboBox.ItemsSource = themes;
 
 
