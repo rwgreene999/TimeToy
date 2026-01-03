@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TimeToy"
         mc:Ignorable="d"
         Title="StopWatcher" Height="250" Width="450"
-        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        Background="{DynamicResource WindowBackgroundGradient}" Foreground="{DynamicResource WindowForegroundBrush}"
         >
     <Window.Resources>
         <local:FontSizerConverter x:Key="FontSizeConverter"/>
@@ -14,12 +14,6 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color= "Goldenrod" Offset="0"/>
-                <GradientStop Color="#7FF3AA21" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
@@ -50,7 +44,10 @@
              FontFamily="Cascadia Code SemiBold"
              
              AcceptsReturn="True"
-             Background="#FFE4FFC1"
+                             Background="{DynamicResource SurfaceBrush}"
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
+
              MinWidth="100"
              MinHeight="40" Text="Go! started 18:18:18.ff">
                 <TextBox.FontSize>
@@ -71,7 +68,10 @@
              FontFamily="Cascadia Code SemiBold"
              
              AcceptsReturn="True"
-             Background="#FFE4FFC1"
+                             Background="{DynamicResource SurfaceBrush}"
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
+
              MinWidth="100"
              MinHeight="40" Text="hh:mm:ss.fff" >
                 <TextBox.FontSize>
