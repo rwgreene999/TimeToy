@@ -52,7 +52,7 @@ In general
 	* DONE: change StopWatcherConverter to be used by all windows 
 	* DONE: Change windows sizes to smaller 
 	* DONE  Multiples "Easy Pasy to allow multiple timers and stopwatches"
-	*       SaveWindowLocation "see if there is a way to make the app remember last used settings"
+	* DONE: done long ago SaveWindowLocation "see if there is a way to make the app remember last used settings"
 	* DONE: TextNotification "Add hover popup explaining the fields and buttons"
 	* DONE: WindowsIcon "Get a better icon for the app and windows"
 	* DONE:	AddVersion "Add version number on screen, tracking, updated readme.md and zipped up code  "
@@ -64,8 +64,14 @@ In general
 	* DONE: Bug-SpeechSynthesizer "Handle error when user's selected voice is not valid on that machine"
 	* DONE: BUG: AlwaysOnTop "Fix Always on Top not working sometimes"
 	* BUG: SaveAndCrash "Fix issue where app crashes and saving config file sometimes"
-	* TODO: Darker "Make dark color darker!"
+	* DONE: Darker "Make dark color darker!"
 	* DONE with logging BUG:  Playing music then windows does not have music available (like bluetooth disconnected), causes a crash
 	* Done: Logging "Implement logging for errors and important actions"
+	* 		CloseALl Close on main windows needs to close all open windows 
+	*       CLIforFunctions "Implement command line arguments to start stopwatch or timer from command line"
+	* BUG:  StartupNotMin "Fix issue where launching app is not minimized"
+	* WIP:  ---> MultipleThemes "Implement multiple color themes and let user choose, use dropdown "
+
+
 	
 

@@ -1,28 +1,40 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Light theme: bright surfaces, dark text, warm primary accent -->
-    <!-- Core window colors -->
-    <Color x:Key="WindowBackgroundColor">#FFFFFFFF</Color>
-    <Color x:Key="WindowForegroundColor">#FF1E1E1E</Color>
+    <!-- Forest theme: dark pine background, soft light text, leaf accents -->
+    <!-- Core colors -->
+    <Color x:Key="WindowBackgroundColor">#FF09261C</Color>
+    <!-- Deep pine -->
+    <Color x:Key="WindowForegroundColor">#FFE6F2EA</Color>
+    <!-- Pale leaf / off-white -->
 
-    <!-- Primary / accents (used by buttons, highlights) -->
-    <Color x:Key="PrimaryColor">#FFB8860B</Color>
-    <Color x:Key="PrimaryLightColor">#FFF5DEB3</Color>
-    <Color x:Key="PrimaryDarkColor">#FF8B5A00</Color>
-    <Color x:Key="AccentColor">#FF2E7D59</Color>
-    <Color x:Key="AccentDarkColor">#FF1E4F39</Color>
+    <!-- Primary / accents -->
+    <Color x:Key="PrimaryColor">#FF2E7D59</Color>
+    <!-- Forest green -->
+    <Color x:Key="PrimaryLightColor">#FF66A884</Color>
+    <!-- Fern light -->
+    <Color x:Key="PrimaryDarkColor">#FF15402B</Color>
+    <!-- Dark pine -->
+    <Color x:Key="AccentColor">#FF8FBF5F</Color>
+    <!-- Leaf highlight -->
+    <Color x:Key="AccentDarkColor">#FF5B8A3B</Color>
+    <!-- Deep leaf -->
 
-    <!-- Surface / neutrals -->
-    <Color x:Key="BackgroundColor">#FFFFFFFF</Color>
-    <Color x:Key="SurfaceColor">#FFF5F5F5</Color>
-    <Color x:Key="ElevatedSurfaceColor">#FFFFFFFF</Color>
+    <!-- Neutrals / surfaces -->
+    <Color x:Key="BackgroundColor">#FF0E2A1F</Color>
+    <!-- same as window bg -->
+    <Color x:Key="SurfaceColor">#FF1E3B31</Color>
+    <!-- mossy surface -->
+    <Color x:Key="ElevatedSurfaceColor">#FF2A453D</Color>
+    <!-- elevated surface -->
 
     <!-- Text palettes -->
-    <Color x:Key="TextColor">#FF1E1E1E</Color>
-    <Color x:Key="MutedTextColor">#FF666666</Color>
+    <Color x:Key="TextColor">#FFE6F2EA</Color>
+    <!-- readable light text -->
+    <Color x:Key="MutedTextColor">#FF9BB7A7</Color>
+    <!-- muted text -->
 
-    <!-- Brushes -->
+    <!-- Brushes (use DynamicResource in XAML where appropriate) -->
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}" />
     <SolidColorBrush x:Key="WindowForegroundBrush" Color="{StaticResource WindowForegroundColor}" />
 
@@ -35,22 +47,17 @@
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
     <SolidColorBrush x:Key="ElevatedSurfaceBrush" Color="{StaticResource ElevatedSurfaceColor}" />
-
     <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
     <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}" />
 
-    <!-- Optional subtle window gradient -->
+    <!-- Optional: subtle gradient for larger areas (can be used by windows or panels) -->
     <LinearGradientBrush x:Key="WindowBackgroundGradient" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{StaticResource WindowBackgroundColor}" Offset="0" />
-        <GradientStop Color="#FFF7F3EE" Offset="1" />
+        <GradientStop Color="#FF0B231A" Offset="1" />
     </LinearGradientBrush>
 
-    <!-- Control defaults for the light theme (keeps control content readable) -->
+    <!-- Ensure RadioButton content is readable in the Forest theme -->
     <Style TargetType="RadioButton">
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-    </Style>
-
-    <Style TargetType="CheckBox">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
     </Style>
 

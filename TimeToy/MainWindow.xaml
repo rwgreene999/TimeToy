@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TimeToy"
       mc:Ignorable="d"      
       Title="Time Toy" Height="250" Width="400"
-        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        Background="{DynamicResource WindowBackgroundGradient}" Foreground="{DynamicResource WindowForegroundBrush}"
         >
    
    <Window.Resources>
@@ -14,13 +14,7 @@
    </Window.Resources>
 
    <Grid>
-       <Grid.Background>
-           <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-               <GradientStop Color="Goldenrod" Offset="0"/>
-               <GradientStop Color="#7FF3AA21" Offset="1"/>
-           </LinearGradientBrush>
-       </Grid.Background>
-       <Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
            <ColumnDefinition Width="250"/>
            <ColumnDefinition Width="*"/>
        </Grid.ColumnDefinitions>
@@ -46,7 +40,10 @@
                    
        </StackPanel>
        <TextBox x:Name="OutputTextBox"
-                Background="Beige"
+                Background="{DynamicResource SurfaceBrush}"
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
+
         Grid.Column="1"
         Margin="16"
         VerticalScrollBarVisibility="Auto"

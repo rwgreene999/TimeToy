@@ -6,17 +6,11 @@
         xmlns:local="clr-namespace:TimeToy"
         mc:Ignorable="d"
         Title="TimerManager" Height="200" Width="490"
-        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        Background="{DynamicResource WindowBackgroundGradient}" Foreground="{DynamicResource WindowForegroundBrush}"
         >
     <Grid>
 
         <Grid>
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color= "Goldenrod" Offset="0"/>
-                    <GradientStop Color="#7FF3AA21" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -31,6 +25,7 @@
                         ToolTip="Add time to new or existing timer"
                         >
                 <TextBox Text="add time" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" 
+                         Foreground="{DynamicResource TextBrush}"
                          Background="Transparent" />
                 <Button Content="30 seconds" Width="90" Margin="0,0,5,0" Click="Add30Seconds_Click"/>
                 <Button Content="1 minute" Width="90" Margin="0,0,5,0" Click="Add1Minute_Click"/>
@@ -50,7 +45,7 @@
                     </TextBlock>
                 </StackPanel.ToolTip>
 
-                <TextBox Text="or enter mm:ss" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
+                <TextBox Text="or enter mm:ss" IsReadOnly="True" Width="90" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent" Foreground="{DynamicResource TextBrush}"/>
 
                 <TextBox x:Name="TimeTextbox" 
                         Width="120" 
@@ -58,7 +53,9 @@
                         VerticalContentAlignment="Center" 
                         HorizontalContentAlignment="Center"
                         ToolTipService.Placement="Top"
-                        Background="#FFE4FFC1" 
+                Background="{DynamicResource SurfaceBrush}"
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
                         TextChanged="TimeTextbox_Changed">
                 </TextBox>
 
@@ -76,23 +73,29 @@
                 <Grid>
                     <TextBox Text="{Binding TimeString, UpdateSourceTrigger=PropertyChanged}"
                              IsReadOnly="True"
-                             Margin="0"
+                             Margin="0,1,0,-1"
                              HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
                              FontSize="32"
                              FontWeight="Bold"
                              Width="250"
                              MinHeight="60"
-                             Background="#FFE4FFC1"
+                             
                              BorderThickness="1"
-                             BorderBrush="#FFCCCCCC"
+                                             Background="{DynamicResource SurfaceBrush}"
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
+
                              HorizontalAlignment="Center"/>
                 </Grid>
             </StackPanel>
 
             <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,5,10,0">
 
-                <TextBox Text="Expected notificatoin time" IsReadOnly="True" Margin="0,0,10,0" HorizontalContentAlignment="Right" Background="Transparent"/>
+                <TextBox Text="Expected notification time" IsReadOnly="True" Margin="0,0,10,0" 
+                         HorizontalContentAlignment="Right" 
+                         Background="Transparent" 
+                         Foreground="{DynamicResource TextBrush}"/>
 
                 <TextBox x:Name="TimeNotificationTextbox" 
                          Text="{Binding TimeNotification, UpdateSourceTrigger=PropertyChanged}"
@@ -102,7 +105,11 @@
                         VerticalContentAlignment="Center" 
                         HorizontalContentAlignment="Center"
                         ToolTipService.Placement="Top"
-                        Background="#FFE4FFC1" 
+                                        Background="{DynamicResource SurfaceBrush}"
+                         
+                Foreground="{DynamicResource TextBrush}"
+                BorderBrush="{DynamicResource PrimaryDarkBrush}"
+
                         >
                 </TextBox>
 

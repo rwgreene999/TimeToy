@@ -43,6 +43,11 @@ namespace TimeToy
 
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
 
+            // Populate theme list (single source of theme names)
+            var themes = new[] { "Dark", "Light", "Forest", "Southwest", "Tropical", "Purple", "Volcano", "Glacier", "Sunset" };
+            ThemeComboBox.ItemsSource = themes;
+
+
             WindowSettingsManager.ApplyToWindow(this, _originalConfigManager.runConfig.optionsSettings.windowSettings);
 
             // Subscribe to move/size/state events
@@ -102,14 +107,9 @@ namespace TimeToy
             _StopWatchVolume = _configManager.runConfig.StopWatcherOptions.Volume;
             StopWatchVolumeSlider.Value = _StopWatchVolume;
 
-            if (_configManager.runConfig.Theme == "Dark")
-            {
-                ThemeDark.IsChecked = true;
-            }
-            else
-            {
-                ThemeLight.IsChecked = true;
-            }
+            // Set theme combo selection from config (fallback to Dark)
+            var theme = (_configManager.runConfig.Theme ?? "Dark").Trim();
+            ThemeComboBox.SelectedItem = theme;
 
         }
 
@@ -172,6 +172,11 @@ namespace TimeToy
 
             _configManager.runConfig.StopWatcherOptions.Voice = StopWatchComboBox.SelectedItem as string;
             _configManager.runConfig.StopWatcherOptions.Volume = _StopWatchVolume;
+
+            // Theme from combo box
+            _configManager.runConfig.Theme = ThemeComboBox.SelectedItem as string ?? _configManager.runConfig.Theme;
+            // WIP: Decide if Above is an error potential and report to user
+
         }
 
         private void Save()
@@ -221,18 +226,6 @@ namespace TimeToy
                     ErrorLogging.Log(ex, "Error playing music file");
                 }
             }
-        }
-
-        private void ThemeDark_Checked(object sender, RoutedEventArgs e)
-        {
-            _configManager.runConfig.Theme = "Dark";
-            ((App)Application.Current).SetTheme("Dark");
-        }
-
-        private void ThemeLight_Checked(object sender, RoutedEventArgs e)
-        {
-            _configManager.runConfig.Theme = "Light";
-            ((App)Application.Current).SetTheme("Light");
         }
 
         private void SaveAll_Click(object sender, RoutedEventArgs e)
@@ -360,5 +353,17 @@ namespace TimeToy
             panel.Children.Add(buttonPanel);
             return panel;
         }
+
+        private void ThemeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var selected = ThemeComboBox.SelectedItem as string;
+            if (!string.IsNullOrWhiteSpace(selected))
+            {
+                _configManager.runConfig.Theme = selected;
+                ((App)Application.Current).SetTheme(selected);
+            }
+        }
+
+
     }
 }

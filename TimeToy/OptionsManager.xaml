@@ -2,18 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TimeToy"
-        Title="TimeToy Options" Height="500" Width="400"
-        Background="{DynamicResource WindowBackgroundBrush}" Foreground="{DynamicResource WindowForegroundBrush}"
+        Title="TimeToy Options" Height="500" Width="655"
+        Background="{DynamicResource WindowBackgroundGradient}" Foreground="{DynamicResource WindowForegroundBrush}"
         >
 
 
     <Grid Margin="0,0,0,0">
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color= "Goldenrod" Offset="0"/>
-                <GradientStop Color="#7FF3AA21" Offset="5"/>
-            </LinearGradientBrush>
-        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -87,20 +81,20 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
-                <StackPanel >
-                    <TextBlock Text="Theme" FontWeight="Bold"/>
-                    <StackPanel Margin="20,5,0,4" Orientation="Horizontal">
-                        <TextBlock Text="Select color theme:" Margin="0,0,10,4"/>
-                        <RadioButton x:Name="ThemeDark" Content="Dark" GroupName="Theme" 
-                                     Margin="0,0,16,0" Checked="ThemeDark_Checked"/>
-                        <RadioButton x:Name="ThemeLight" Content="Light" GroupName="Theme" 
-                                     Margin="0,0,16,0" Checked="ThemeLight_Checked"/>
+
+
+                <!-- Theme selection: replaced radio buttons with a drop-down ComboBox -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
+                    <StackPanel >
+                        <TextBlock Text="Theme" FontWeight="Bold"/>
+                        <StackPanel Margin="20,5,0,4" Orientation="Horizontal">
+                            <TextBlock Text="Select color theme:" Margin="0,0,10,4"/>
+                            <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
                 <StackPanel>
                     <StackPanel.ToolTip>
                         <TextBlock>

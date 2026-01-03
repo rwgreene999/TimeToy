@@ -1,26 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Light theme: bright surfaces, dark text, warm primary accent -->
+    <!-- Glacier theme: icy blues, cool teals and crisp dark text -->
     <!-- Core window colors -->
-    <Color x:Key="WindowBackgroundColor">#FFFFFFFF</Color>
-    <Color x:Key="WindowForegroundColor">#FF1E1E1E</Color>
+    <Color x:Key="WindowBackgroundColor">#FFF4FBFF</Color>   <!-- very pale ice -->
+    <Color x:Key="WindowForegroundColor">#FF083042</Color>   <!-- deep glacier teal -->
 
-    <!-- Primary / accents (used by buttons, highlights) -->
-    <Color x:Key="PrimaryColor">#FFB8860B</Color>
-    <Color x:Key="PrimaryLightColor">#FFF5DEB3</Color>
-    <Color x:Key="PrimaryDarkColor">#FF8B5A00</Color>
-    <Color x:Key="AccentColor">#FF2E7D59</Color>
-    <Color x:Key="AccentDarkColor">#FF1E4F39</Color>
+    <!-- Primary / accents -->
+    <Color x:Key="PrimaryColor">#FF4FC3F7</Color>            <!-- sky/ice blue -->
+    <Color x:Key="PrimaryLightColor">#FFBEEFFE</Color>       <!-- pale highlight -->
+    <Color x:Key="PrimaryDarkColor">#FF1E88E5</Color>        <!-- strong blue -->
+    <Color x:Key="AccentColor">#FF00BFA5</Color>             <!-- cool teal accent -->
+    <Color x:Key="AccentDarkColor">#FF00796B</Color>
 
     <!-- Surface / neutrals -->
-    <Color x:Key="BackgroundColor">#FFFFFFFF</Color>
-    <Color x:Key="SurfaceColor">#FFF5F5F5</Color>
-    <Color x:Key="ElevatedSurfaceColor">#FFFFFFFF</Color>
+    <Color x:Key="BackgroundColor">#FFF4FBFF</Color>
+    <Color x:Key="SurfaceColor">#FFF0F7FB</Color>
+    <Color x:Key="ElevatedSurfaceColor">#FFE9F4F9</Color>
 
     <!-- Text palettes -->
-    <Color x:Key="TextColor">#FF1E1E1E</Color>
-    <Color x:Key="MutedTextColor">#FF666666</Color>
+    <Color x:Key="TextColor">#FF083042</Color>
+    <Color x:Key="MutedTextColor">#FF6C8A97</Color>
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}" />
@@ -39,13 +39,14 @@
     <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
     <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}" />
 
-    <!-- Optional subtle window gradient -->
+    <!-- Themed gradient for larger areas -->
     <LinearGradientBrush x:Key="WindowBackgroundGradient" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="{StaticResource WindowBackgroundColor}" Offset="0" />
-        <GradientStop Color="#FFF7F3EE" Offset="1" />
+        <GradientStop Color="#FFE6F6FF" Offset="0.6" />
+        <GradientStop Color="#FFDCEFF9" Offset="1" />
     </LinearGradientBrush>
 
-    <!-- Control defaults for the light theme (keeps control content readable) -->
+    <!-- Ensure common controls are readable under Glacier -->
     <Style TargetType="RadioButton">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
     </Style>
