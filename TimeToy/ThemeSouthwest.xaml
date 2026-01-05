@@ -44,4 +44,10 @@
         <GradientStop Color="#FF29160F" Offset="1" />
     </LinearGradientBrush>
 
+    <!-- Ensure RadioButton content is readable in the Forest theme -->
+    <Style TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+    </Style>
+
+
 </ResourceDictionary>

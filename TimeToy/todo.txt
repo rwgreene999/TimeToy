@@ -25,12 +25,19 @@ In Timer
 	* DONE: SnoozeRename "Change the Snooze button to Pause"
 
 	* Cancel, see UserNotification "Add option for user selected  sound when timer ends"
-	* RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
+	*		RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
+	* BUG: RepeatButton "Fix Repeat button not working after Snooze"
+
 	
 
 
 In the Alarm 
-	* implement everything
+	* WIP: --> AlarmImplement "Part 1: Implement Alarm window and basic features"
+	*	       AlarmAddContiguration "Part 2: Implement configuration for Alarm window"
+	*          AlarmImplementNotification "Part 3: Implement Notification for Alarm window"
+	*          AlarmImplementSound "Part 4: Implement Sound playing for Alarm window"
+	*          AlarmImplementSnooze "Part 5: Implement Snooze for Alarm window"	
+	*          AlarmAddToWindowsStartup "Part 6: Implement Option to add to Windows Startup"
 
 Options panel: 
 	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
@@ -70,7 +77,8 @@ In general
 	* 		CloseALl Close on main windows needs to close all open windows 
 	*       CLIforFunctions "Implement command line arguments to start stopwatch or timer from command line"
 	* BUG:  StartupNotMin "Fix issue where launching app is not minimized"
-	* WIP:  ---> MultipleThemes "Implement multiple color themes and let user choose, use dropdown "
+	* DONE: MultipleThemes "Implement multiple color themes and let user choose, use dropdown "
+	
 
 
 	

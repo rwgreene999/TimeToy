@@ -85,8 +85,8 @@ namespace TimeToy
 
         private void Alarm_Click(object sender, RoutedEventArgs e)
         {
-            OutputTextBox.Text = "Alarm button clicked.";
-            this.Title = "Move ByMe";
+            var alarmClockManager = new AlarmClock(_configManager);
+            alarmClockManager.Show();
         }
 
 
