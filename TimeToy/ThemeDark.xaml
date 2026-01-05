@@ -18,7 +18,7 @@
     <Color x:Key="ElevatedSurfaceColor">#FF262626</Color>
 
     <!-- Text palettes -->
-    <Color x:Key="TextColor">#FFFFFFFF</Color>
+    <Color x:Key="TextColor">#FFC7C7C7</Color>
     <Color x:Key="MutedTextColor">#FF9E9E9E</Color>
 
     <!-- Brushes -->
@@ -43,5 +43,11 @@
         <GradientStop Color="{StaticResource WindowBackgroundColor}" Offset="0" />
         <GradientStop Color="#FF0B0B0B" Offset="1" />
     </LinearGradientBrush>
+
+    <!-- Ensure RadioButton content is readable in the Forest theme -->
+    <Style TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+    </Style>
+
 
 </ResourceDictionary>

@@ -85,6 +85,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AlarmClock.xaml.cs">
+      <DependentUpon>AlarmClock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FullScreenNotification.xaml.cs">
       <DependentUpon>FullScreenNotification.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,9 @@
       <DependentUpon>OptionsManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowSettingsManager.cs" />
+    <Page Include="AlarmClock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FullScreenNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
