@@ -91,11 +91,11 @@ namespace TimeToy
             RunVersion.Text = $"{version} (Built: {buildTimeStr})";
 
 
-            if (_configManager.runConfig.TimerOptions.Notification == RunConfigManager.TimerNotificationOptions.Voice)
+            if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
             {
                 VoiceRadio.IsChecked = true;
             }
-            else if (_configManager.runConfig.TimerOptions.Notification == RunConfigManager.TimerNotificationOptions.Sound)
+            else if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Sound)
             {
                 MusicRadio.IsChecked = true;
             }
@@ -163,9 +163,9 @@ namespace TimeToy
 
         private void UpdateConfigWithCurrentSelection()
         {
-            if (VoiceRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = RunConfigManager.TimerNotificationOptions.Voice; }
-            else if (MusicRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = RunConfigManager.TimerNotificationOptions.Sound; }
-            else _configManager.runConfig.TimerOptions.Notification = RunConfigManager.TimerNotificationOptions.Voice;
+            if (VoiceRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = TimerNotificationOptions.Voice; }
+            else if (MusicRadio.IsChecked == true) { _configManager.runConfig.TimerOptions.Notification = TimerNotificationOptions.Sound; }
+            else _configManager.runConfig.TimerOptions.Notification = TimerNotificationOptions.Voice;
             _configManager.runConfig.TimerOptions.Comment = VoiceTextBox.Text;
             _configManager.runConfig.TimerOptions.Voice = VoiceComboBox.SelectedItem as string;
             _configManager.runConfig.TimerOptions.Filename = MusicFileTextBox.Text;

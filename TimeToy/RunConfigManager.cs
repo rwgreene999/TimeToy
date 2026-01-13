@@ -15,12 +15,28 @@ namespace TimeToy
         public string IsMaximized { get; set; } = System.Windows.WindowState.Normal.ToString();
     }
 
+
+    public enum AlarmRepeatMode { None, Daily, Weekdays, Weekly }
+    public class AlarmClockEntry
+    {
+        public bool Active { get; set; } = false; 
+        public string Title { get; set; } = String.Empty;
+        public DateTime Alarm { get; set; } = DateTime.MinValue;
+        public TimerNotificationOptions Notification { get; set; } = TimerNotificationOptions.Voice;
+        public string Comment { get; set; } = String.Empty;
+        public string Voice { get; set; } = String.Empty;
+        public string Filename { get; set; } = String.Empty;
+        public AlarmRepeatMode RepeatMode { get; set; } = AlarmRepeatMode.None;
+        public WindowSettings windowSettings { get; set; } = new WindowSettings();
+
+    }
+
+    public enum TimerNotificationOptions { None, Sound, Voice };
+
     // configuration for complete application
     public class RunConfigManager
     {
 
-        // configuration for complete application
-        public enum TimerNotificationOptions { None, Sound, Voice };
         public class TimerSettings
         {
             public TimerNotificationOptions Notification { get; set; } = TimerNotificationOptions.Voice;
@@ -41,6 +57,14 @@ namespace TimeToy
             public WindowSettings windowSettings { get; set; } = new WindowSettings();
 
         }
+
+        public AlarmClockEntry[] AlarmClocks { get; set; } = new AlarmClockEntry[]
+        {
+            new AlarmClockEntry(),
+            new AlarmClockEntry(),
+            new AlarmClockEntry()
+        };
+
         public class RunConfig
         {
             public string Theme { get; set; } = "Dark";

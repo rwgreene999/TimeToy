@@ -17,53 +17,18 @@ namespace TimeToy
         {
             try
             {
-                if (window == null) throw new ArgumentNullException(nameof(window));
-                if (settings == null) return;
-
-                // Apply size first so later checks use meaningful values
-                if (!double.IsNaN(settings.Width) && settings.Width > 0) window.Width = settings.Width;
-                if (!double.IsNaN(settings.Height) && settings.Height > 0) window.Height = settings.Height;
-
-                bool hasPosition = !double.IsNaN(settings.Left) && !double.IsNaN(settings.Top);
-
-                if (hasPosition)
+                if (window == null && settings == null )
                 {
-                    double useWidth = !double.IsNaN(settings.Width) && settings.Width > 0 ? settings.Width : window.Width;
-                    double useHeight = !double.IsNaN(settings.Height) && settings.Height > 0 ? settings.Height : window.Height;
-
-                    // Saved rect in WPF device-independent units (DIPs)
-                    var savedRect = new Rect(settings.Left, settings.Top, useWidth, useHeight);
-
-                    // Virtual screen bounds (DIPs) and primary work area (DIPs)
-                    var virtualScreen = new Rect(
-                        SystemParameters.VirtualScreenLeft,
-                        SystemParameters.VirtualScreenTop,
-                        SystemParameters.VirtualScreenWidth,
-                        SystemParameters.VirtualScreenHeight);
-
-                    var primaryWork = SystemParameters.WorkArea;
-
-                    // If saved rect intersects the virtual screen, restore; otherwise fallback
-                    if (savedRect.IntersectsWith(virtualScreen))
-                    {
-                        window.Left = settings.Left;
-                        window.Top = settings.Top;
-                    }
-                    else
-                    {
-                        // Center on primary work area and clamp size
-                        double desiredW = Math.Min(savedRect.Width, primaryWork.Width);
-                        double desiredH = Math.Min(savedRect.Height, primaryWork.Height);
-
-                        double left = primaryWork.Left + (primaryWork.Width - desiredW) / 2;
-                        double top = primaryWork.Top + (primaryWork.Height - desiredH) / 2;
-
-                        window.Left = left;
-                        window.Top = top;
-
-                        window.Width = Math.Min(window.Width, primaryWork.Width);
-                        window.Height = Math.Min(window.Height, primaryWork.Height);
-                    }
+                    ErrorLogging.Log($"Request to set window {window?.Title ?? "null Window" }, settings { (settings is null ? "ok," : "settings null" ) }. "); 
+                }
+                    
+                if (SettingsWouldBeOnScreen( settings) ) 
+                {
+                    window.Left = settings.Left;
+                    window.Top = settings.Top;
+                }
+                else
+                {
                 }
 
                 // Restore window state after position/size to avoid WPF quirks
@@ -80,8 +45,39 @@ namespace TimeToy
             }
             catch (Exception ex)
             {
-                ErrorLogging.Log(ex, "Error applying WindowSettings to Window.");
+                ErrorLogging.Log(ex, $"Error applying WindowSettings to Window {window.Title}.");
             }
+        }
+
+        public static bool SettingsWouldBeOnScreen(WindowSettings settings, double minVisiblePixels = 16)
+        {
+            if (settings == null) return false;
+
+            // Need a position to test
+            if (double.IsNaN(settings.Left) || double.IsNaN(settings.Top))
+                return false;
+
+            // If size is unset, use a sensible default so we can test visibility
+            double useWidth = !double.IsNaN(settings.Width) && settings.Width > 0 ? settings.Width : 100.0;
+            double useHeight = !double.IsNaN(settings.Height) && settings.Height > 0 ? settings.Height : 100.0;
+
+            var savedRect = new Rect(settings.Left, settings.Top, useWidth, useHeight);
+            var virtualScreen = new Rect(
+                SystemParameters.VirtualScreenLeft,
+                SystemParameters.VirtualScreenTop,
+                SystemParameters.VirtualScreenWidth,
+                SystemParameters.VirtualScreenHeight);
+
+            if (!savedRect.IntersectsWith(virtualScreen))
+                return false;
+
+            // Compute overlap area and require at least minVisiblePixels to consider "on screen"
+            double overlapW = Math.Min(savedRect.Right, virtualScreen.Right) - Math.Max(savedRect.Left, virtualScreen.Left);
+            double overlapH = Math.Min(savedRect.Bottom, virtualScreen.Bottom) - Math.Max(savedRect.Top, virtualScreen.Top);
+
+            if (overlapW <= 0 || overlapH <= 0) return false;
+
+            return (overlapW * overlapH) >= minVisiblePixels;
         }
 
         // Capture current window position/size/state into WindowSettings.
