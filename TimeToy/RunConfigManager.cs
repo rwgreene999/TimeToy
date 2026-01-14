@@ -23,9 +23,9 @@ namespace TimeToy
         public string Title { get; set; } = String.Empty;
         public DateTime Alarm { get; set; } = DateTime.MinValue;
         public TimerNotificationOptions Notification { get; set; } = TimerNotificationOptions.Voice;
-        public string Comment { get; set; } = String.Empty;
+        public string VoiceComment { get; set; } = String.Empty;
         public string Voice { get; set; } = String.Empty;
-        public string Filename { get; set; } = String.Empty;
+        public string MusicFilename { get; set; } = String.Empty;
         public AlarmRepeatMode RepeatMode { get; set; } = AlarmRepeatMode.None;
         public WindowSettings windowSettings { get; set; } = new WindowSettings();
 

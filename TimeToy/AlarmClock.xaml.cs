@@ -44,10 +44,6 @@ namespace TimeToy
             MinuteCombo.SelectedIndex = 0;
             AmPmCombo.SelectedIndex = 0;
 
-            // Weekly day
-            foreach (var d in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>())
-                WeeklyDayCombo.Items.Add(d.ToString());
-            WeeklyDayCombo.SelectedIndex = 0;
 
             WindowSettingsManager.ApplyToWindow(this, _configManager.runConfig.TimerOptions.windowSettings);
             // Subscribe to move/size/state events
@@ -83,95 +79,86 @@ namespace TimeToy
             if (config.AlarmClocks[idx].Title == String.Empty )
             {
                 SetInitialConfiguration(idx, config);
-            }
+            } else
+            {
+                TitleTextBox.Text = config.AlarmClocks[idx].Title;
+                DatePicker.SelectedDate = config.AlarmClocks[idx].Alarm.Date;
+                HourCombo.Text = config.AlarmClocks[idx].Alarm.ToString("hh");
+                MinuteCombo.Text = config.AlarmClocks[idx].Alarm.ToString("mm");
+                AmPmCombo.Text = config.AlarmClocks[idx].Alarm.ToString("tt");
+                MusicFileTextBox.Text = config.AlarmClocks[idx].MusicFilename;
+                VoiceTextBox.Text = config.AlarmClocks[idx].VoiceComment;
+                VoiceCombo.SelectedItem = config.AlarmClocks[idx].Voice;
+                AddOtherOptionalVoicesToVoiceCombo(VoiceCombo); 
 
-            TitleTextBox.Text = config.AlarmClocks[idx].Title; 
+                switch ( config.AlarmClocks[idx].Notification )
+                {
+                    case TimerNotificationOptions.Voice:
+                        VoiceRadio.IsChecked = true;
+                        MusicPanel.Visibility = Visibility.Collapsed;
+                        VoicePanel.Visibility = Visibility.Visible;
+                        break;
+                    case TimerNotificationOptions.Sound:
+                        MusicRadio.IsChecked = true;
+                        VoicePanel.Visibility = Visibility.Collapsed;
+                        MusicPanel.Visibility = Visibility.Visible;
+                        break;
+                    default:
+                        VoiceRadio.IsChecked = true;
+                        break;
+                }
+                switch( config.AlarmClocks[idx].RepeatMode )
+                {
+                    case AlarmRepeatMode.Daily:
+                        RepeatDaily.IsChecked = true;
+                        _repeatMode = AlarmRepeatMode.Daily;
+                        break;
+                    case AlarmRepeatMode.Weekdays:
+                        RepeatWeekdays.IsChecked = true;
+                        _repeatMode = AlarmRepeatMode.Weekdays;
+                        break;
+                    case AlarmRepeatMode.Weekly:
+                        RepeatWeekly.IsChecked = true;
+                        _repeatMode = AlarmRepeatMode.Weekly;
+                        break;
+                    default:
+                        RepeatNone.IsChecked = true;
+                        _repeatMode = AlarmRepeatMode.None;
+                        break;
+                }
+            }            
+        }
 
-            // Voices WIP this will go away 
+
+        private void AddOtherOptionalVoicesToVoiceCombo(ComboBox voiceCombo)
+        {
+            
             using (var s = new SpeechSynthesizer())
             {
                 var voices = s.GetInstalledVoices().Select(v => v.VoiceInfo.Name).ToList();
-                if (voices.Any())
+                foreach (var voice in voices)
                 {
-                    VoiceCombo.ItemsSource = voices;
-                    VoiceCombo.SelectedValue = config.AlarmClocks[idx].Voice;
+                    if (!voiceCombo.Items.Contains(voice))
+                    {
+                        voiceCombo.Items.Add(voice);
+                    }
                 }
             }
-
-            // DatePicker default
-            DatePicker.SelectedDate = DateTime.Now.Date;
-            HourCombo.Text = config.AlarmClocks[idx].Alarm.ToString("hh");
-            MinuteCombo.Text = config.AlarmClocks[idx].Alarm.ToString("mm");
-            AmPmCombo.Text = config.AlarmClocks[idx].Alarm.ToString("tt");
-
-
-            //// Timer ticks each second to evaluate alarm
-            //_checkTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-            //_checkTimer.Tick += CheckTimer_Tick;
-
-            // Repeat options
-            var entry = config.AlarmClocks[idx];
-            switch (entry.RepeatMode)
-            {
-                case AlarmRepeatMode.Daily:
-                    RepeatDaily.IsChecked = true;
-                    _repeatMode = AlarmRepeatMode.Daily;
-                    break;
-                case AlarmRepeatMode.Weekdays:
-                    RepeatWeekdays.IsChecked = true;
-                    _repeatMode = AlarmRepeatMode.Weekdays;
-                    break;
-                case AlarmRepeatMode.Weekly:
-                    RepeatWeekly.IsChecked = true;
-                    _repeatMode = AlarmRepeatMode.Weekly;
-                    // If the saved Alarm has a sensible DayOfWeek, select it in the combo
-                    if (entry.Alarm != DateTime.MinValue)
-                    {
-                        var dayName = entry.Alarm.DayOfWeek.ToString();
-                        if (WeeklyDayCombo.Items.Contains(dayName))
-                        {
-                            WeeklyDayCombo.SelectedItem = dayName;
-                            Enum.TryParse(dayName, out _weeklyDay);
-                        }
-                    }
-                    break;
-                default:
-                    RepeatNone.IsChecked = true;
-                    _repeatMode = AlarmRepeatMode.None;
-                    break;
-            }
-
-
-            switch (entry.Notification)
-            {
-                case TimerNotificationOptions.Voice:
-                    VoiceRadio.IsChecked = true;
-                    MusicPanel.Visibility = Visibility.Collapsed;
-                    VoicePanel.Visibility = Visibility.Visible;
-                    break;
-                case TimerNotificationOptions.Sound:
-                    MusicRadio.IsChecked = true;
-                    VoicePanel.Visibility = Visibility.Collapsed;
-                    MusicPanel.Visibility = Visibility.Visible;
-                    break;
-                default:
-                    VoiceRadio.IsChecked = true;
-                    break; 
-            }
-            VoiceTextBox.Text = "Alarm Active";            
         }
+
+
         void SetInitialConfiguration(int idx, RunConfigManager config)
         {
             config.AlarmClocks[idx].Title = "Alarm " + (idx + 1).ToString();
             config.AlarmClocks[idx].Alarm = DateTime.Now.AddMinutes(-1);
             config.AlarmClocks[idx].Notification = TimerNotificationOptions.Voice;
-            config.AlarmClocks[idx].Comment = "Alarm Time Is Up";
+            config.AlarmClocks[idx].VoiceComment = "Alarm Time Is Up";
             using (var s = new SpeechSynthesizer())
             {
                 var voices = s.GetInstalledVoices().Select(v => v.VoiceInfo.Name).ToList();
                 config.AlarmClocks[idx].Voice = voices.FirstOrDefault() ?? String.Empty;
             }
-            config.AlarmClocks[idx].Filename = String.Empty;
+            config.AlarmClocks[idx].MusicFilename = String.Empty;
         }
 
 
@@ -181,9 +168,7 @@ namespace TimeToy
             else if (RepeatWeekdays.IsChecked == true) _repeatMode = AlarmRepeatMode.Weekdays;
             else if (RepeatWeekly.IsChecked == true)
             {
-                _repeatMode = AlarmRepeatMode.Weekly;
-                if (WeeklyDayCombo.SelectedItem != null)
-                    Enum.TryParse(WeeklyDayCombo.SelectedItem.ToString(), out _weeklyDay);
+                // WIP someday show the day of the week based on the Date they selected 
             }
             else _repeatMode = AlarmRepeatMode.None;
         }
@@ -211,7 +196,8 @@ namespace TimeToy
                 using (var s = new SpeechSynthesizer())
                 {
                     s.SelectVoice(voice);
-                    s.SpeakAsync(text);
+                    // s.SpeakAsync(text); // wip: async Did nto work for unknown reasons 
+                    s.Speak(text);
                 }
             }
         }
@@ -265,8 +251,9 @@ namespace TimeToy
             DateTime baseDate = DatePicker.SelectedDate ?? DateTime.Now.Date;
             DateTime candidate = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day, hour24, minute, 0);
 
-            // When repeating, compute next occurrence according to repeat mode
-            _nextAlarm = ComputeNextOccurrence(candidate, _repeatMode);
+            // WIP do this when alarm expired and is clicked 
+            //// When repeating, compute next occurrence according to repeat mode
+            //_nextAlarm = ComputeNextOccurrence(candidate, _repeatMode);
 
             if (_nextAlarm <= DateTime.Now)
             {
@@ -279,7 +266,8 @@ namespace TimeToy
             CompactTimeText.Text = _nextAlarm.ToString("f");
 
             // Switch to compact view
-            EnterCompactMode();
+            // WIP Cancel this process until I make it work correctly and not update the position in the config file  
+            // EnterCompactMode();
 
             // Start timer
             _isRunning = true;
@@ -305,6 +293,7 @@ namespace TimeToy
                     var day = now;
                     DateTime next = new DateTime(day.Year, day.Month, day.Day, candidate.Hour, candidate.Minute, 0);
                     int attempts = 0;
+                    // WIP SUspect need work here 
                     while (attempts < 7)
                     {
                         if (next > now && next.DayOfWeek != DayOfWeek.Saturday && next.DayOfWeek != DayOfWeek.Sunday)
@@ -316,12 +305,8 @@ namespace TimeToy
                 case AlarmRepeatMode.Weekly:
                     // target weekly day selected
                     DayOfWeek target = _weeklyDay;
-                    // if WeeklyDayCombo has selection, update
-                    if (WeeklyDayCombo.SelectedItem != null) Enum.TryParse(WeeklyDayCombo.SelectedItem.ToString(), out target);
                     var start = new DateTime(now.Year, now.Month, now.Day, candidate.Hour, candidate.Minute, 0);
-                    int daysToAdd = ((int)target - (int)start.DayOfWeek + 7) % 7;
-                    if (daysToAdd == 0 && start <= now) daysToAdd = 7;
-                    return start.AddDays(daysToAdd);
+                    return start.AddDays(7);
                 default:
                     return candidate;
             }
@@ -344,6 +329,7 @@ namespace TimeToy
 
         private void ExitCompactMode()
         {
+            // WIP Cancel this process until I make it work correctly and not update the position in the config file
             CompactPanel.Visibility = Visibility.Collapsed;
             FullPanel.Visibility = Visibility.Visible;
             Width = _normalWidth;
@@ -370,7 +356,8 @@ namespace TimeToy
         private void ActivateAlarm()
         {
             // Expand window
-            ExitCompactMode();
+            // WIP Cancel this process until I make it work correctly and not update the position in the config file
+            // ExitCompactMode();
 
             // Play notification
             if (MusicRadio.IsChecked == true)
@@ -473,13 +460,45 @@ namespace TimeToy
             catch { }
 
             // restore full UI so user can edit
-            ExitCompactMode();
+            // WIP Cancel this process until I make it work correctly and not update the position in the config file
+            // ExitCompactMode();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateConfigurationFromWindow(); 
+            _configManager.Save();
+        }
+
+        private void UpdateConfigurationFromWindow()
+        {
+            _configManager.AlarmClocks[_alarmSelected].Title = TitleTextBox.Text.Trim();
+            if (RepeatNone.IsChecked == true) _configManager.AlarmClocks[_alarmSelected].RepeatMode = AlarmRepeatMode.None;
+            else if (RepeatDaily.IsChecked == true) _configManager.AlarmClocks[_alarmSelected].RepeatMode = AlarmRepeatMode.Daily;
+            else if (RepeatWeekdays.IsChecked == true) _configManager.AlarmClocks[_alarmSelected].RepeatMode = AlarmRepeatMode.Weekdays;
+            else if (RepeatWeekly.IsChecked == true) _configManager.AlarmClocks[_alarmSelected].RepeatMode = AlarmRepeatMode.Weekly;
+            if (VoiceRadio.IsChecked == true)
+                _configManager.AlarmClocks[_alarmSelected].Notification = TimerNotificationOptions.Voice;
+            else
+                _configManager.AlarmClocks[_alarmSelected].Notification = TimerNotificationOptions.Sound;
+            _configManager.AlarmClocks[_alarmSelected].MusicFilename = MusicFileTextBox.Text.Trim();
+            _configManager.AlarmClocks[_alarmSelected].VoiceComment = VoiceTextBox.Text.Trim();
+            _configManager.AlarmClocks[_alarmSelected].Voice = VoiceCombo.SelectedItem as string ?? String.Empty;            
+
+            DateTime baseDate = DatePicker.SelectedDate ?? DateTime.Now.Date;
+            if (!int.TryParse(HourCombo.SelectedItem as string, out int hour12)) hour12 = 0;
+            if (!int.TryParse(MinuteCombo.SelectedItem as string, out int minute)) minute = 0;
+            bool isPm = (AmPmCombo.SelectedItem as string) == "PM";
+            int hour24 = hour12 + (isPm ? 12 : 0);
+            DateTime alarmDateTime = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day, hour24, minute, 0);
+            _configManager.AlarmClocks[_alarmSelected].Alarm = alarmDateTime;
+
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             // cleanup
-            _checkTimer.Stop();
+            if (_checkTimer != null ) _checkTimer.Stop();
             try { _mediaPlayer.Close(); } catch { }
             try { _synth?.Dispose(); } catch { }
             Close();

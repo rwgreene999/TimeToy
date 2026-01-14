@@ -28,6 +28,7 @@ In Timer
 	*		RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
 	* BUG: RepeatButton "Fix Repeat button not working after Snooze"
 	* BUG: Pause and resume not working as exopected 
+	* BUG: NewOpen "Fix issue where opening new Timer window is min'ed or max'ed "
 
 
 	

@@ -39,16 +39,17 @@
         </StackPanel>
 
         <GroupBox Header="Repeat" Margin="0,8,0,0">
-          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+            <StackPanel Width="200">
             <RadioButton Name="RepeatNone" Content="None" Checked="RepeatOption_Checked"/>
             <RadioButton Name="RepeatDaily" Content="Daily" Checked="RepeatOption_Checked"/>
             <RadioButton Name="RepeatWeekdays" Content="Weekdays (Mon-Fri)" Checked="RepeatOption_Checked"/>
-            <StackPanel Orientation="Horizontal">
-              <RadioButton Name="RepeatWeekly" Content="Weekly" Checked="RepeatOption_Checked"/>
-              <ComboBox Name="WeeklyDayCombo" Width="120" Margin="8,0,0,0"/>
+                            <RadioButton x:Name="RepeatWeekly" Content="Weekly" Checked="RepeatOption_Checked"/>
+
             </StackPanel>
-          </StackPanel>
-        </GroupBox>
+                        <TextBlock Width="100" TextWrapping="Wrap">Note, repeats work only if code is running at alarm time</TextBlock>
+                    </StackPanel>
+                </GroupBox>
 
         <GroupBox Header="Notification" Margin="0,8,0,0">
           <StackPanel>
@@ -92,7 +93,8 @@
     </Border>
 
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-      <Button Name="GoButton" Content="Go" Width="80" Margin="6" Click="GoButton_Click"/>
+            <Button Name="SaveButton" Content="Save" Width="80" Margin="6" Click="SaveButton_Click"/>
+            <Button Name="GoButton" Content="Go" Width="80" Margin="6" Click="GoButton_Click"/>
       <Button Name="StopButton" Content="Stop" Width="80" Margin="6" Click="StopButton_Click" IsEnabled="False"/>
       <Button Name="CloseButton" Content="Close" Width="80" Margin="6" Click="CloseButton_Click"/>
     </StackPanel>
