@@ -79,7 +79,7 @@ In general
 	* Done: Logging "Implement logging for errors and important actions"
 	* 		CloseALl Close on main windows needs to close all open windows 
 	*       CLIforFunctions "Implement command line arguments to start stopwatch or timer from command line"
-	* BUG:  StartupNotMin "Fix issue where launching app is not minimized"
+	* WIP:  StartupNotMin "Fix issue where launching app is not minimized"
 	* DONE: MultipleThemes "Implement multiple color themes and let user choose, use dropdown "
 	
 
