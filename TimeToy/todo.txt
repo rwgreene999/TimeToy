@@ -41,6 +41,7 @@ In the Alarm
 	*          AlarmImplementSound "Part 4: Implement Sound playing for Alarm window"
 	*          AlarmImplementSnooze "Part 5: Implement Snooze for Alarm window"	
 	*          AlarmAddToWindowsStartup "Part 6: Implement Option to add to Windows Startup"
+	*			MainWindoClose handle scenario where main windo closes but alarm is set to go off later
 
 Options panel: 
 	* DONE: Options1 "Part 1: Implement Options window to set app wide settings"
@@ -77,9 +78,10 @@ In general
 	* DONE: Darker "Make dark color darker!"
 	* DONE with logging BUG:  Playing music then windows does not have music available (like bluetooth disconnected), causes a crash
 	* Done: Logging "Implement logging for errors and important actions"
-	* 		CloseALl Close on main windows needs to close all open windows 
+	* WIP:  CloseALl Close on main windows needs to close all open windows 
+	*         <<<CloseAll does not affect AlarmClock cause it mus keep running>>>
 	*       CLIforFunctions "Implement command line arguments to start stopwatch or timer from command line"
-	* WIP:  StartupNotMin "Fix issue where launching app is not minimized"
+	* DONE:  StartupNotMin "Fix issue where launching app is not minimized"
 	* DONE: MultipleThemes "Implement multiple color themes and let user choose, use dropdown "
 	
 

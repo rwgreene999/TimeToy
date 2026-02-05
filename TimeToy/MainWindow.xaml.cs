@@ -73,12 +73,14 @@ namespace TimeToy
         private void Timer_Click(object sender, RoutedEventArgs e)
         {
             var timerManager = new TimerManager(_configManager);
+            timerManager.Owner = this;
             timerManager.Show();
         }
 
         private void StopWatch_Click(object sender, RoutedEventArgs e)
         {
             var stopWatcherManager = new StopWatcher(_configManager);
+            stopWatcherManager.Owner = this;
             stopWatcherManager.Show();
 
         }
