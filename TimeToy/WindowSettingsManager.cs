@@ -31,16 +31,18 @@ namespace TimeToy
                 {
                 }
 
-                // Restore window state after position/size to avoid WPF quirks
-                if (!string.IsNullOrWhiteSpace(settings.IsMaximized) &&
-                    Enum.TryParse(settings.IsMaximized, out WindowState state))
-                {
-                    window.WindowState = state;
-                }
-                else
-                {
-                    window.WindowState = WindowState.Normal;
-                }
+                // NOTE: restoring state led to weird results, like opening a timer and it opens minimized 
+                //// Restore window state after position/size to avoid WPF quirks
+                //if (!string.IsNullOrWhiteSpace(settings.IsMaximized) &&
+                //    Enum.TryParse(settings.IsMaximized, out WindowState state))
+                //{
+                //    window.WindowState = state;
+                //}
+                //else
+                //{
+                //    window.WindowState = WindowState.Normal;
+                //}
+                window.WindowState = WindowState.Normal;
 
             }
             catch (Exception ex)
