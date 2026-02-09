@@ -88,6 +88,7 @@
     <Compile Include="AlarmClock.xaml.cs">
       <DependentUpon>AlarmClock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AudioNotificationManager.cs" />
     <Compile Include="FullScreenNotification.xaml.cs">
       <DependentUpon>FullScreenNotification.xaml</DependentUpon>
     </Compile>
