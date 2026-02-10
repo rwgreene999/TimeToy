@@ -35,33 +35,14 @@ namespace TimeToy
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
         private bool _isTimerRunning;
         private bool _showTimer;
-        private SpeechSynthesizer _synth = new SpeechSynthesizer();
         private RunConfigManager _configManager;
+        private AudioNotificationManager _audioManager = new AudioNotificationManager();
+        private OneShotInputWatcher _oneShotWatcher;
         public StopWatcher(RunConfigManager config)
         {
             InitializeComponent();
             PrepareForStopwatchAction();
-            _synth.Rate = 3;
             _configManager = config;
-
-            _synth.SpeakCompleted += (s, e) =>
-            {
-                if (e.Error != null)
-                {
-                    ErrorLogging.Log( e.Error, "Error during speech synthesis.");
-                }
-            };
-
-            if (_configManager.runConfig.StopWatcherOptions.Voice == null || _configManager.runConfig.StopWatcherOptions.Voice == string.Empty)
-            {
-                
-            } else
-            {
-                _synth.SelectVoice(_configManager.runConfig.StopWatcherOptions.Voice);
-            }
-                
-            _synth.Volume = (int)_configManager.runConfig.StopWatcherOptions.Volume;
-
             WindowSettingsManager.ApplyToWindow(this, _configManager.runConfig.StopWatcherOptions.windowSettings);
 
             // Subscribe to move/size/state events
@@ -69,6 +50,46 @@ namespace TimeToy
             SizeChanged += (s, e) => { CaptureWindowsLocation(); };
             StateChanged += (s, e) => { CaptureWindowsLocation(); };
             Closing += (s, e) => { CaptureWindowsLocation(); };
+            // create watcher that defers the "user code" action to this lambda
+            _oneShotWatcher = new OneShotInputWatcher(this, () =>
+            {
+                // <<User Code Goes Here>> - invoked once on next key or mouse input for this window
+                try
+                {
+                    _audioManager.StopAll();
+                    this.Topmost = false;
+                    NativeMethods.UnforceForegroundWindow(this);
+                }
+                catch (Exception ex)
+                {
+                    try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
+                }
+            });
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            // allow base to run first so WPF can do its cleanup
+            base.OnClosing(e);
+
+            try { CaptureWindowsLocation(); } catch { }
+
+            // stop and dispose audio resources created by this window
+            try
+            {
+                _audioManager?.StopAll();
+                _audioManager?.Dispose();
+                _audioManager = null;
+            }
+            catch (Exception ex)
+            {
+                // log but do not prevent closing
+                try { ErrorLogging.Log(ex, "Error cleaning up audio manager on closing."); } catch { }
+            }
+
+            _oneShotWatcher?.Dispose();
+            _oneShotWatcher = null;
+
         }
         private void CaptureWindowsLocation()
         {
@@ -79,7 +100,6 @@ namespace TimeToy
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            _synth.Dispose();
         }
 
         private void PrepareForStopwatchAction()
@@ -97,7 +117,7 @@ namespace TimeToy
 
         private void Speak(string text)
         {
-             _synth.SpeakAsync(text);
+            _audioManager.PlayVoice(text);
         }
 
 

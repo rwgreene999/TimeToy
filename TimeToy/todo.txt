@@ -27,11 +27,14 @@ In Timer
 	* Cancel, see UserNotification "Add option for user selected  sound when timer ends"
 	*		RethinkTimeBoxes "Rethink the two time boxes to be more user friendly"
 	* BUG: RepeatButton "Fix Repeat button not working after Snooze"
+	* Bug: repeat button not work after end 
 	* BUG: Pause and resume not working as exopected 
 	* BUG: NewOpen "Fix issue where opening new Timer window is min'ed or max'ed "
 	* Bug: ShowContents, this has started not showing the contents of the window when timer pops. 
+	
 
 	* Feb09,26 StopTheSound "Add option to stop any playing sound when user clicks anywhere on TimeToy, need to implement everywhere"
+	* Feb10,26 StopTheSound2 "Implement WatchForAnyKey() function to stop sound when user clicks anywhere on TimeToy, need to implement everywhere"
 
 
 	
