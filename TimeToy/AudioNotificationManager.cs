@@ -45,7 +45,7 @@ namespace TimeToy
         }
 
         // Play speech asynchronously. Reuses a single SpeechSynthesizer instance.
-        public void PlayVoice(string text, string voiceName = null, int volume = 100)
+        public void PlayVoice(string text, string voiceName = null, int volume = 100, int? speakRate = null)
         {
             if (string.IsNullOrWhiteSpace(text)) return;
 
@@ -58,7 +58,11 @@ namespace TimeToy
                     {
                         try { _synth.SelectVoice(voiceName); } catch { /* voice may not exist — ignore */ }
                     }
-                    _synth.Volume = Math.Max(0, Math.Min(100, volume));
+                    _synth.Volume = volume; 
+                    if ( speakRate.HasValue)
+                    {
+                        _synth.Rate = speakRate.Value; 
+                    }
                     try { _synth.SpeakAsyncCancelAll(); } catch { }
                     _synth.SpeakAsync(text);
                 }
@@ -182,7 +186,6 @@ namespace TimeToy
                 {
                     try { ErrorLogging.Log(e.Error, "Speech synthesis error."); } catch { }
                 }
-                // keep synthesizer instance for reuse; do not dispose here
             };
         }
 

@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="ErrorLogging.cs" />
+    <Compile Include="OneShotInputWatcher.cs" />
     <Compile Include="RunConfigManager.cs" />
     <Compile Include="StopWatcher.xaml.cs">
       <DependentUpon>StopWatcher.xaml</DependentUpon>

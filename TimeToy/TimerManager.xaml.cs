@@ -36,6 +36,7 @@ namespace TimeToy
         private TimeSpan _originalSelectedNotification = TimeSpan.Zero;
         private TimeSpan _timeBacking = TimeSpan.Zero;
         private AudioNotificationManager _audioManager = new AudioNotificationManager();
+        private OneShotInputWatcher _oneShotWatcher;
         private TimeSpan _time
         {
             get => _timeBacking;
@@ -104,7 +105,23 @@ namespace TimeToy
             // Subscribe to move/size/state events
             LocationChanged += (s, e) => { CaptureWindowsLocation(); };
             SizeChanged += (s, e) => { CaptureWindowsLocation(); };
-            StateChanged += (s, e) => { CaptureWindowsLocation(); };            
+            StateChanged += (s, e) => { CaptureWindowsLocation(); };
+
+            _oneShotWatcher = new OneShotInputWatcher(this, () =>
+            {
+                // <<User Code Goes Here>> - invoked once on next key or mouse input for this window
+                try
+                {
+                    _audioManager.StopAll();
+                    this.Topmost = false;
+                    NativeMethods.UnforceForegroundWindow(this);
+                }
+                catch (Exception ex)
+                {
+                    try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
+                }
+            });
+
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -112,8 +129,7 @@ namespace TimeToy
             // allow base to run first so WPF can do its cleanup
             base.OnClosing(e);
 
-            try { CaptureWindowsLocation(); }
-            catch { }
+            try { CaptureWindowsLocation(); } catch { }
 
             // stop and dispose audio resources created by this window
             try
@@ -127,6 +143,10 @@ namespace TimeToy
                 // log but do not prevent closing
                 try { ErrorLogging.Log(ex, "Error cleaning up audio manager on closing."); } catch { }
             }
+
+            _oneShotWatcher?.Dispose();
+            _oneShotWatcher = null;
+
         }
 
         private void CaptureWindowsLocation()
@@ -238,52 +258,11 @@ namespace TimeToy
                 {
                     _audioManager.PlayVoice(_configManager.runConfig.TimerOptions.Comment, 
                         _configManager.runConfig.TimerOptions.Voice, 100);
-                    //if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Voice)
-                    //{
-                    //    SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-                    //    synthesizer.SpeakCompleted += (s, e) =>
-                    //    {
-                    //        if (e.Error != null)
-                    //        {
-                    //            ErrorLogging.Log(e.Error, "Speech synthesis creation error.");
-                    //        }
-                    //    };
-
-                    //    try
-                    //    {
-                    //        // sometimes voices change on a machine or json from one machine moves to another 
-                    //        if (_configManager.runConfig.TimerOptions.Voice != null && _configManager.runConfig.TimerOptions.Voice != String.Empty)
-                    //        {
-                    //            synthesizer.SelectVoice(_configManager.runConfig.TimerOptions.Voice);
-                    //        }
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        ErrorLogging.Log(ex, "Speech synthesis voice selection error, using default voice.");
-                    //    }
-                    //    synthesizer.Volume = 100;
-                    //    synthesizer.SpeakAsync(_configManager.runConfig.TimerOptions.Comment);
-                    //}
                 }
 
                 if (_configManager.runConfig.TimerOptions.Notification == TimerNotificationOptions.Sound)
                 {
                     _audioManager.PlaySound(_configManager.runConfig.TimerOptions.Filename);
-                    //if (System.IO.Path.GetExtension(_configManager.runConfig.TimerOptions.Filename).Equals(".wav", StringComparison.OrdinalIgnoreCase))
-                    //{
-                    //    var player = new SoundPlayer(_configManager.runConfig.TimerOptions.Filename);
-                    //    player.Play();
-                    //}
-                    //else
-                    //{
-                    //    MediaPlayer mediaPlayer = new MediaPlayer();
-                    //    mediaPlayer.MediaFailed += (s, e) =>
-                    //    {
-                    //        ErrorLogging.Log(e.ErrorException, "Media playback creation failed ");
-                    //    };
-                    //    mediaPlayer.Open(new Uri(_configManager.runConfig.TimerOptions.Filename));
-                    //    mediaPlayer.Play();
-                    //}
                 }
 
 
@@ -295,7 +274,7 @@ namespace TimeToy
                 // Ensure window receives keyboard input
                 //this.Focus();
                 //Keyboard.Focus(this);
-                WatchForAnyKey(); 
+                _oneShotWatcher?.StartWatching();
 
 
             }
@@ -307,77 +286,77 @@ namespace TimeToy
         }
 
         
-        private KeyEventHandler _oneTimeKeyHandler;
-        // Add this field alongside the existing _oneTimeKeyHandler
-        private MouseButtonEventHandler _oneTimeMouseHandler;
+        //private KeyEventHandler _oneTimeKeyHandler;
+        //// Add this field alongside the existing _oneTimeKeyHandler
+        //private MouseButtonEventHandler _oneTimeMouseHandler;
 
-        private void WatchForAnyKey()
-        {
-            // Remove any previous one-shot handlers (use RemoveHandler because we'll use AddHandler)
-            if (_oneTimeMouseHandler != null)
-            {
-                try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-                _oneTimeMouseHandler = null;
-            }
-            if (_oneTimeKeyHandler != null)
-            {
-                try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-                _oneTimeKeyHandler = null;
-            }
+        //private void WatchForAnyKey()
+        //{
+        //    // Remove any previous one-shot handlers (use RemoveHandler because we'll use AddHandler)
+        //    if (_oneTimeMouseHandler != null)
+        //    {
+        //        try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
+        //        _oneTimeMouseHandler = null;
+        //    }
+        //    if (_oneTimeKeyHandler != null)
+        //    {
+        //        try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
+        //        _oneTimeKeyHandler = null;
+        //    }
 
-            // Create the one-shot mouse handler (client-area clicks, includes clicks on child controls)
-            _oneTimeMouseHandler = (s, e) =>
-            {
-                try
-                {
-                    _audioManager.StopAll();
-                    this.Topmost = false;
-                    NativeMethods.UnforceForegroundWindow(this);
-                }
-                catch (Exception ex)
-                {
-                    try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
-                }
-                finally
-                {
-                    try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-                    try { if (_oneTimeKeyHandler != null) RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-                    _oneTimeMouseHandler = null;
-                    _oneTimeKeyHandler = null;
-                }
-                // do NOT set e.Handled = true so normal click processing continues
-            };
+        //    // Create the one-shot mouse handler (client-area clicks, includes clicks on child controls)
+        //    _oneTimeMouseHandler = (s, e) =>
+        //    {
+        //        try
+        //        {
+        //            _audioManager.StopAll();
+        //            this.Topmost = false;
+        //            NativeMethods.UnforceForegroundWindow(this);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
+        //        }
+        //        finally
+        //        {
+        //            try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
+        //            try { if (_oneTimeKeyHandler != null) RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
+        //            _oneTimeMouseHandler = null;
+        //            _oneTimeKeyHandler = null;
+        //        }
+        //        // do NOT set e.Handled = true so normal click processing continues
+        //    };
 
-            // Create the one-shot key handler (only triggers if the window has focus)
-            _oneTimeKeyHandler = new KeyEventHandler((s, e) =>
-            {
-                try
-                {
-                    _audioManager.StopAll();
-                    this.Topmost = false;
-                    NativeMethods.UnforceForegroundWindow(this);
-                }
-                catch (Exception ex)
-                {
-                    try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
-                }
-                finally
-                {
-                    try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-                    try { if (_oneTimeMouseHandler != null) RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-                    _oneTimeKeyHandler = null;
-                    _oneTimeMouseHandler = null;
-                }
-                // do NOT set e.Handled = true so normal key processing continues
-            });
+        //    // Create the one-shot key handler (only triggers if the window has focus)
+        //    _oneTimeKeyHandler = new KeyEventHandler((s, e) =>
+        //    {
+        //        try
+        //        {
+        //            _audioManager.StopAll();
+        //            this.Topmost = false;
+        //            NativeMethods.UnforceForegroundWindow(this);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
+        //        }
+        //        finally
+        //        {
+        //            try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
+        //            try { if (_oneTimeMouseHandler != null) RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
+        //            _oneTimeKeyHandler = null;
+        //            _oneTimeMouseHandler = null;
+        //        }
+        //        // do NOT set e.Handled = true so normal key processing continues
+        //    });
 
-            // Register handlers so they receive events even if child controls marked them handled
-            AddHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler, handledEventsToo: true);
-            AddHandler(KeyDownEvent, _oneTimeKeyHandler, handledEventsToo: true);
+        //    // Register handlers so they receive events even if child controls marked them handled
+        //    AddHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler, handledEventsToo: true);
+        //    AddHandler(KeyDownEvent, _oneTimeKeyHandler, handledEventsToo: true);
 
-            // No forcing of focus; if the user focuses this window and then presses a key or clicks,
-            // the handlers will fire and then remove themselves (one-shot).
-        }
+        //    // No forcing of focus; if the user focuses this window and then presses a key or clicks,
+        //    // the handlers will fire and then remove themselves (one-shot).
+        //}
 
 
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)

@@ -16,7 +16,10 @@ namespace TimeToy
         double _StopWatchVolume = 100.0;
         private RunConfigManager _originalConfigManager;
         private RunConfigManager _configManager = new RunConfigManager();
-        private MediaPlayer mediaPlayer = new MediaPlayer();
+        AudioNotificationManager _audioManager = new AudioNotificationManager();
+        // add field near other fields
+        private OneShotInputWatcher _oneShotWatcher;
+
 
         // Prevent re-entrancy when we programmatically Close() after confirmation
         private bool _closeConfirmed;
@@ -41,8 +44,6 @@ namespace TimeToy
                     VoiceComboBox.SelectedIndex = 0;
             }
 
-            mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
-
             // Populate theme list (single source of theme names)
             var themes = new[] { "Dark", "Light", "Forest", "Southwest", "Tropical", "Purple", "Volcano", "Glacier", "Sunset", "Spring" };
             ThemeComboBox.ItemsSource = themes;
@@ -61,13 +62,36 @@ namespace TimeToy
 
             LoadedUsersDataFromSettings();
 
-            this.Closed += (s, e) =>
-            {
-                mediaPlayer.Close();
-            };
-
             StopWatchVolumeSlider.ValueChanged += StopWatchVolumeSlider_ValueChanged;
+
+            // create watcher that defers the "user code" action to this lambda
+            _oneShotWatcher = new OneShotInputWatcher(this, () =>
+            {
+                // <<User Code Goes Here>> - invoked once on next key or mouse input for this window
+                try
+                {
+                    _audioManager.StopAll();
+                }
+                catch (Exception ex)
+                {
+                    try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
+                }
+            });
+
         }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            // allow base to run first so WPF can do its cleanup
+            base.OnClosing(e);
+
+            try { CaptureWindowsLocation(); }
+            catch { }
+
+            _oneShotWatcher?.Dispose();
+            _oneShotWatcher = null;
+        }
+
 
         private void CaptureWindowsLocation()
         {
@@ -113,12 +137,6 @@ namespace TimeToy
 
         }
 
-        private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
-        {
-            MessageBox.Show($"media error:{e.ToString()} details:{e.ErrorException}");
-            var ex = e?.ErrorException ?? new Exception("Unknown media error");
-            ErrorLogging.Log(ex, $"Media Player failed {e.ErrorException}");
-        }
 
         private void Radio_Checked2(object sender, RoutedEventArgs e)
         {
@@ -189,7 +207,6 @@ namespace TimeToy
 
         private void MusicBrowse_Click(object sender, RoutedEventArgs e)
         {
-            mediaPlayer.Close();
             var dlg = new OpenFileDialog
             {
                 Filter = "Audio Files|*.wav;*.mp3;*.wma;*.aac;*.m4a|All Files|*.*"
@@ -204,22 +221,12 @@ namespace TimeToy
         {
 
             var file = MusicFileTextBox.Text;
-            mediaPlayer.Close();
             if (!string.IsNullOrWhiteSpace(file) && System.IO.File.Exists(file))
             {
                 try
                 {
-                    if (System.IO.Path.GetExtension(file).Equals(".wav", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var player = new SoundPlayer(file);
-                        player.Play();
-                    }
-                    else
-                    {
-
-                        mediaPlayer.Open(new Uri(file));
-                        mediaPlayer.Play();
-                    }
+                    _audioManager.PlaySound(file);
+                    _oneShotWatcher?.StartWatching();
                 }
                 catch (Exception ex)
                 {
