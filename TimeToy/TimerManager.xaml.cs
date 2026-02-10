@@ -44,7 +44,8 @@ namespace TimeToy
             {
                 if (value == TimeSpan.Zero && _timeBacking != TimeSpan.Zero)
                 {
-                    SetOperationalState(OperationState.Zero);
+                    // WIP: test to see whay this is set like this, and what this change breaks 
+                    // SetOperationalState(OperationState.Zero);
                 }
                 else if (value != TimeSpan.Zero && _timeBacking == TimeSpan.Zero)
                 {
@@ -233,9 +234,10 @@ namespace TimeToy
                             OnPropertyChanged(nameof(TimeString));
                             _dispatcherTimer.Stop();
                             ExpectedExpireTime = DateTime.MinValue;
-                            NotifyUserTimeIsUp();
+                            
                             SetOperationalState(OperationState.Ended);
                             _time = TimeSpan.Zero;
+                            NotifyUserTimeIsUp();
                         }
                         catch (Exception ex)
                         {
@@ -286,79 +288,6 @@ namespace TimeToy
         }
 
         
-        //private KeyEventHandler _oneTimeKeyHandler;
-        //// Add this field alongside the existing _oneTimeKeyHandler
-        //private MouseButtonEventHandler _oneTimeMouseHandler;
-
-        //private void WatchForAnyKey()
-        //{
-        //    // Remove any previous one-shot handlers (use RemoveHandler because we'll use AddHandler)
-        //    if (_oneTimeMouseHandler != null)
-        //    {
-        //        try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-        //        _oneTimeMouseHandler = null;
-        //    }
-        //    if (_oneTimeKeyHandler != null)
-        //    {
-        //        try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-        //        _oneTimeKeyHandler = null;
-        //    }
-
-        //    // Create the one-shot mouse handler (client-area clicks, includes clicks on child controls)
-        //    _oneTimeMouseHandler = (s, e) =>
-        //    {
-        //        try
-        //        {
-        //            _audioManager.StopAll();
-        //            this.Topmost = false;
-        //            NativeMethods.UnforceForegroundWindow(this);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
-        //        }
-        //        finally
-        //        {
-        //            try { RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-        //            try { if (_oneTimeKeyHandler != null) RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-        //            _oneTimeMouseHandler = null;
-        //            _oneTimeKeyHandler = null;
-        //        }
-        //        // do NOT set e.Handled = true so normal click processing continues
-        //    };
-
-        //    // Create the one-shot key handler (only triggers if the window has focus)
-        //    _oneTimeKeyHandler = new KeyEventHandler((s, e) =>
-        //    {
-        //        try
-        //        {
-        //            _audioManager.StopAll();
-        //            this.Topmost = false;
-        //            NativeMethods.UnforceForegroundWindow(this);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            try { ErrorLogging.Log(ex, "Error during UnforceForegroundWindow call."); } catch { }
-        //        }
-        //        finally
-        //        {
-        //            try { RemoveHandler(KeyDownEvent, _oneTimeKeyHandler); } catch { }
-        //            try { if (_oneTimeMouseHandler != null) RemoveHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler); } catch { }
-        //            _oneTimeKeyHandler = null;
-        //            _oneTimeMouseHandler = null;
-        //        }
-        //        // do NOT set e.Handled = true so normal key processing continues
-        //    });
-
-        //    // Register handlers so they receive events even if child controls marked them handled
-        //    AddHandler(Mouse.PreviewMouseDownEvent, _oneTimeMouseHandler, handledEventsToo: true);
-        //    AddHandler(KeyDownEvent, _oneTimeKeyHandler, handledEventsToo: true);
-
-        //    // No forcing of focus; if the user focuses this window and then presses a key or clicks,
-        //    // the handlers will fire and then remove themselves (one-shot).
-        //}
-
-
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             ErrorLogging.Log(e.ErrorException, "Media playback failed.");
